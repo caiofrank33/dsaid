@@ -1,0 +1,1019 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family:'Courier New', Courier, monospace;
+            font-size: 16px;
+            
+        }
+    </style>
+    <style>
+        /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
+
+        /* Document
+        ========================================================================== */
+
+        /**
+        * 1. Correct the line height in all browsers.
+        * 2. Prevent adjustments of font size after orientation changes in iOS.
+        */
+
+        html {
+        line-height: 1.15; /* 1 */
+        -webkit-text-size-adjust: 100%; /* 2 */
+        }
+
+        /* Sections
+        ========================================================================== */
+
+        /**
+        * Remove the margin in all browsers.
+        */
+
+        body {
+        margin: 0;
+        }
+
+        /**
+        * Render the `main` element consistently in IE.
+        */
+
+        main {
+        display: block;
+        }
+
+        /**
+        * Correct the font size and margin on `h1` elements within `section` and
+        * `article` contexts in Chrome, Firefox, and Safari.
+        */
+
+        h1 {
+        font-size: 2em;
+        margin: 0.67em 0;
+        }
+
+        /* Grouping content
+        ========================================================================== */
+
+        /**
+        * 1. Add the correct box sizing in Firefox.
+        * 2. Show the overflow in Edge and IE.
+        */
+
+        hr {
+        box-sizing: content-box; /* 1 */
+        height: 0; /* 1 */
+        overflow: visible; /* 2 */
+        }
+
+        /**
+        * 1. Correct the inheritance and scaling of font size in all browsers.
+        * 2. Correct the odd `em` font sizing in all browsers.
+        */
+
+        pre {
+        font-family: monospace, monospace; /* 1 */
+        font-size: 1em; /* 2 */
+        }
+
+        /* Text-level semantics
+        ========================================================================== */
+
+        /**
+        * Remove the gray background on active links in IE 10.
+        */
+
+        a {
+        background-color: transparent;
+        }
+
+        /**
+        * 1. Remove the bottom border in Chrome 57-
+        * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+        */
+
+        abbr[title] {
+        border-bottom: none; /* 1 */
+        text-decoration: underline; /* 2 */
+        text-decoration: underline dotted; /* 2 */
+        }
+
+        /**
+        * Add the correct font weight in Chrome, Edge, and Safari.
+        */
+
+        b,
+        strong {
+        font-weight: bolder;
+        }
+
+        /**
+        * 1. Correct the inheritance and scaling of font size in all browsers.
+        * 2. Correct the odd `em` font sizing in all browsers.
+        */
+
+        code,
+        kbd,
+        samp {
+        font-family: monospace, monospace; /* 1 */
+        font-size: 1em; /* 2 */
+        }
+
+        /**
+        * Add the correct font size in all browsers.
+        */
+
+        small {
+        font-size: 80%;
+        }
+
+        /**
+        * Prevent `sub` and `sup` elements from affecting the line height in
+        * all browsers.
+        */
+
+        sub,
+        sup {
+        font-size: 75%;
+        line-height: 0;
+        position: relative;
+        vertical-align: baseline;
+        }
+
+        sub {
+        bottom: -0.25em;
+        }
+
+        sup {
+        top: -0.5em;
+        }
+
+        /* Embedded content
+        ========================================================================== */
+
+        /**
+        * Remove the border on images inside links in IE 10.
+        */
+
+        img {
+        border-style: none;
+        }
+
+        /* Forms
+        ========================================================================== */
+
+        /**
+        * 1. Change the font styles in all browsers.
+        * 2. Remove the margin in Firefox and Safari.
+        */
+
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+        font-family: inherit; /* 1 */
+        font-size: 100%; /* 1 */
+        line-height: 1.15; /* 1 */
+        margin: 0; /* 2 */
+        }
+
+        /**
+        * Show the overflow in IE.
+        * 1. Show the overflow in Edge.
+        */
+
+        button,
+        input { /* 1 */
+        overflow: visible;
+        }
+
+        /**
+        * Remove the inheritance of text transform in Edge, Firefox, and IE.
+        * 1. Remove the inheritance of text transform in Firefox.
+        */
+
+        button,
+        select { /* 1 */
+        text-transform: none;
+        }
+
+        /**
+        * Correct the inability to style clickable types in iOS and Safari.
+        */
+
+        button,
+        [type="button"],
+        [type="reset"],
+        [type="submit"] {
+        -webkit-appearance: button;
+        }
+
+        /**
+        * Remove the inner border and padding in Firefox.
+        */
+
+        button::-moz-focus-inner,
+        [type="button"]::-moz-focus-inner,
+        [type="reset"]::-moz-focus-inner,
+        [type="submit"]::-moz-focus-inner {
+        border-style: none;
+        padding: 0;
+        }
+
+        /**
+        * Restore the focus styles unset by the previous rule.
+        */
+
+        button:-moz-focusring,
+        [type="button"]:-moz-focusring,
+        [type="reset"]:-moz-focusring,
+        [type="submit"]:-moz-focusring {
+        outline: 1px dotted ButtonText;
+        }
+
+        /**
+        * Correct the padding in Firefox.
+        */
+
+        fieldset {
+        padding: 0.35em 0.75em 0.625em;
+        }
+
+        /**
+        * 1. Correct the text wrapping in Edge and IE.
+        * 2. Correct the color inheritance from `fieldset` elements in IE.
+        * 3. Remove the padding so developers are not caught out when they zero out
+        *    `fieldset` elements in all browsers.
+        */
+
+        legend {
+        box-sizing: border-box; /* 1 */
+        color: inherit; /* 2 */
+        display: table; /* 1 */
+        max-width: 100%; /* 1 */
+        padding: 0; /* 3 */
+        white-space: normal; /* 1 */
+        }
+
+        /**
+        * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+        */
+
+        progress {
+        vertical-align: baseline;
+        }
+
+        /**
+        * Remove the default vertical scrollbar in IE 10+.
+        */
+
+        textarea {
+        overflow: auto;
+        }
+
+        /**
+        * 1. Add the correct box sizing in IE 10.
+        * 2. Remove the padding in IE 10.
+        */
+
+        [type="checkbox"],
+        [type="radio"] {
+        box-sizing: border-box; /* 1 */
+        padding: 0; /* 2 */
+        }
+
+        /**
+        * Correct the cursor style of increment and decrement buttons in Chrome.
+        */
+
+        [type="number"]::-webkit-inner-spin-button,
+        [type="number"]::-webkit-outer-spin-button {
+        height: auto;
+        }
+
+        /**
+        * 1. Correct the odd appearance in Chrome and Safari.
+        * 2. Correct the outline style in Safari.
+        */
+
+        [type="search"] {
+        -webkit-appearance: textfield; /* 1 */
+        outline-offset: -2px; /* 2 */
+        }
+
+        /**
+        * Remove the inner padding in Chrome and Safari on macOS.
+        */
+
+        [type="search"]::-webkit-search-decoration {
+        -webkit-appearance: none;
+        }
+
+        /**
+        * 1. Correct the inability to style clickable types in iOS and Safari.
+        * 2. Change font properties to `inherit` in Safari.
+        */
+
+        ::-webkit-file-upload-button {
+        -webkit-appearance: button; /* 1 */
+        font: inherit; /* 2 */
+        }
+
+        /* Interactive
+        ========================================================================== */
+
+        /*
+        * Add the correct display in Edge, IE 10+, and Firefox.
+        */
+
+        details {
+        display: block;
+        }
+
+        /*
+        * Add the correct display in all browsers.
+        */
+
+        summary {
+        display: list-item;
+        }
+
+        /* Misc
+        ========================================================================== */
+
+        /**
+        * Add the correct display in IE 10+.
+        */
+
+        template {
+        display: none;
+        }
+
+        /**
+        * Add the correct display in IE 10.
+        */
+
+        [hidden] {
+        display: none;
+        }
+
+    </style>
+    <style>
+        body {
+            margin: 0 1em;
+        }
+		form select {
+			width: 100%;
+    		height: 48px;
+		}
+        .counter-card {
+            border: 1px solid black;
+            border-radius: 20px;
+            /* padding: 1em; */
+            margin-bottom: 16px;
+        }
+
+        .counter-card-title {
+            border-bottom: 1px solid black;
+            /* margin: 0 -1em; */
+        }
+
+		.counter-card.is-collapsed .counter-card-title {
+			border-bottom: none;
+		}
+
+		.counter-card.is-collapsed #counter-card-body {
+			display: none;
+		}
+
+		.counter-card-title h1 {
+			margin: 0 0 8px 0;
+		}
+
+		.card-actions {
+			font-family: monospace;
+			font-size: 24px;
+			display: grid;
+			grid-template-columns: max-content max-content;
+			gap: 12px;
+			justify-content: end;
+			padding: 0 24px;
+		}
+
+        .counter-card-title h1, .counter-card-title code {
+            padding: 0 24px;
+			margin-bottom: 8px;
+        }
+
+        .counter-card-title code {
+            color: gray;
+			display: block;
+        }
+
+        .counter-card-body-item:not(:last-child) {
+            border-bottom: 1px solid gainsboro;
+        }
+        .counter-card-body-item .race-title {
+            padding: 0 1em;
+        }
+        .counter-card-body-item .counter-list {
+            padding: 0 2em;
+        }
+    </style>
+
+    <title>DS Aid</title>
+
+</head>
+<body>
+    <h1 class="title">Direct Strike Aid</h1>
+    
+    <form>
+        <label for="unit-selection">Choose the unit you want to counter</label>
+        <select name="Unit section" id="unit-selection" onchange="addEnemyUnit(this)">
+            <option value="empty"></option>
+            <optgroup label="Terran"></optgroup>
+            <optgroup label="Zerg"></optgroup>
+            <optgroup label="Protoss"></optgroup>
+        </select>
+    </form>
+
+    <div id="counter-output">
+        <!-- <div class="counter-card">
+            <div class="counter-card-title">
+                <h1>
+                    Baneling
+                </h1>
+            </div>
+            <div id="counter-card-body">
+                <div class="counter-card-body-item">
+                    <h3 class="race-title">As Zerg...</h3>
+                    <ul class="counter-list">
+                        <li>Baneling: build fewer than the opponent and space them out so one of your banes kills 3 of theirs</li>
+                        <li>Zergling: </li>
+                        <li>Roach</li>
+                    </ul>
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+
+
+
+
+    
+</body>
+<script>
+	
+/**
+ * DOM stuff
+ */
+
+const terranOptGroupEl = document.querySelector('body > form > select > optgroup[label="Terran"]');
+const zergOptGroupEl = document.querySelector('body > form > select > optgroup[label="Zerg"]');
+const protossOptGroupEl = document.querySelector('body > form > select > optgroup[label="Protoss"]');
+
+const outputContainer = document.querySelector('#counter-output');
+
+const counterCardBodyTempl = `
+		<div class="counter-card-title">
+			<div class="card-actions">
+				<div class="card-action" onclick="toggleCollapse(this)">-</div>
+				<div class="card-action" onclick="closeCard(this)">X</div>
+			</div>
+			<h1>%%name%%</h1>
+            <code>%%description%%</code>
+		</div>
+		<div id="counter-card-body">
+			%%counterCardBodyItemTempls%%
+		</div>
+`;
+
+function closeCard(el) {
+	el.parentElement.parentElement.parentElement.remove();
+}
+
+function toggleCollapse(el) {
+	if (el.parentElement.parentElement.parentElement.classList.contains(`is-collapsed`)) {
+		el.parentElement.parentElement.parentElement.classList.remove(`is-collapsed`);
+	} else {
+		el.parentElement.parentElement.parentElement.classList.add(`is-collapsed`);
+	}
+	// el.parentElement.parentElement.parentElement.classList.add("is-collapsed")
+
+}
+
+
+const counterCardBodyItemTempl = `
+	<div class="counter-card-body-item">
+		<h3 class="race-title">As %%race%%...</h3>
+		<ul class="counter-list">
+			%%counterCardListItemTempls%%
+		</ul>
+	</div>
+`;
+
+
+const counterCardListItemTempl = `
+	<li><strong>%%name%%</strong>: %%counterDescription%%</li>
+`;
+
+const counterCardListItem2Templ = `
+	<li><strong>%%name%%</strong></li>
+`;
+
+function templateReplacer(template, obj) {
+	for (const prop in obj) {
+		console.log(prop)
+		template = template.replace(`%%${prop}%%`, obj[prop]);
+	}
+
+	return template;
+}
+
+function getCounterCard(scUnit) {
+	const counterListContainer = document.createElement('ul');
+	counterListContainer.className = 'counter-list'
+
+	const protossCounterListItems = scUnit.counters.filter(counter => counter.race === Race.Protoss).reduce((agg, counter) => {
+		agg += counter.counterDescription ? templateReplacer(counterCardListItemTempl, counter) : templateReplacer(counterCardListItem2Templ, counter);
+		return agg;
+	}, '');
+
+	const terranCounterListItems = scUnit.counters.filter(counter => counter.race === Race.Terran).reduce((agg, counter) => {
+		agg += counter.counterDescription ? templateReplacer(counterCardListItemTempl, counter) : templateReplacer(counterCardListItem2Templ, counter);
+
+		return agg;
+	}, '');
+
+	const zergCounterListItems = scUnit.counters.filter(counter => counter.race === Race.Zerg).reduce((agg, counter) => {
+		agg += counter.counterDescription ? templateReplacer(counterCardListItemTempl, counter) : templateReplacer(counterCardListItem2Templ, counter);
+
+		return agg;
+	}, '');
+
+
+	const protossCardBodyItemHtml = templateReplacer(counterCardBodyItemTempl, { race: 'Protoss', counterCardListItemTempls: protossCounterListItems })
+	const terranCardBodyItemHtml = templateReplacer(counterCardBodyItemTempl, { race: 'Terran', counterCardListItemTempls: terranCounterListItems })
+	const zergCardBodyItemHtml = templateReplacer(counterCardBodyItemTempl, { race: 'Zerg', counterCardListItemTempls: zergCounterListItems })
+
+	const cardHtml = document.createElement("div");
+	cardHtml.className = "counter-card";
+	cardHtml.innerHTML = templateReplacer(counterCardBodyTempl, { name: scUnit.name, description: scUnit.description, counterCardBodyItemTempls: protossCardBodyItemHtml + terranCardBodyItemHtml + zergCardBodyItemHtml });
+	outputContainer.insertBefore(cardHtml, outputContainer.firstChild);
+}
+
+/**
+ * 
+ * Interaction
+ * 
+ */
+
+function addEnemyUnit(selectObj) {
+	const enemyUnitName = selectObj.options[selectObj.selectedIndex].value
+	if (enemyUnitName === 'empty') {
+		console.log('empty selection')
+		return;
+	}
+
+	selectObj.value = 'empty';
+
+	const unit = units.find(u => u.name === enemyUnitName);
+
+
+
+	//  selectEl.up
+	getCounterCard(unit)
+
+	// console.log(enemyUnitName);
+}
+const TerranUnitType = {
+	Ghost: 'Ghost',
+	Marine: 'Marine',
+	Marauder: 'Marauder',
+	Reaper: 'Reaper',
+	Hellbat: 'Hellbat',
+	Hellion: 'Hellion',
+	Liberator: 'Liberator',
+	Medivac: 'Medivac',
+	Banshees: 'Banshees',
+	Raven: 'Raven',
+	SiegeTank: 'Siege Tank',
+	MissileMech: 'Missile Mech Guy',
+	WidowMine: 'Widow Mine',
+	Viking: 'Viking',
+	Thor: 'Thor',
+	BattleCruiser: 'Battle Cruiser',
+	TODO: 'TODO',
+};
+
+const ZergUnitType = {
+	Baneling: 'Baneling',
+	Broodlord: 'Broodlord',
+	Corruptor: 'Corruptor',
+	Hydralisk: 'Hydralisk',
+	Infestor: 'Infestor',
+	Lurker: 'Lurker',
+	Mutalisk: 'Mutalisk',
+	Queen: 'Queen',
+	Ravager: 'Ravager',
+	Roach: 'Roach',
+	SwarmHost: 'Swarm Host',
+	Ultralisk: 'Ultralisk',
+	Viper: 'Viper',
+	Zergling: 'Zergling',
+	TODO: 'TODO',
+};
+
+const ProtossUnitType = {
+	Adept: 'Adept',
+	Archon: 'Archon',
+	Carrier: 'Carrier',
+	Colossus: 'Colossus',
+	Disruptor: 'Disruptor',
+	HighTemplar: 'High Templar',
+	Immortal: 'Immortal',
+	Phoenix: 'Phoenix',
+	Sentry: 'Sentry',
+	Stalker: 'Stalker',
+	Tempest: 'Tempest',
+	VoidRay: 'VoidRay',
+	Zealot: 'Zealot',
+	TODO: 'TODO',
+	_LaserFlyer_: '_LaserFlyer_',
+};
+
+
+const Race = {
+	Terran: "Terran",
+	Zerg: "Zerg",
+	Protoss: "Protoss"
+}
+
+class ScUnitCounter {
+	constructor(race, name, counterDescription) {
+		this.name = name;
+		this.race = race;
+		this.counterDescription = counterDescription;
+	}
+}
+
+class ScUnit {
+	constructor(name, description, race, counters) {
+		this.name = name;
+		this.description = description;
+		this.race = race;
+		this.counters = counters;
+	}
+}
+
+class TerranUnit extends ScUnit {
+	constructor(name, description, counters) {
+		super(name, description, Race.Terran, counters);
+	}
+}
+
+class ZergUnit extends ScUnit {
+	constructor(name, description, counters) {
+		super(name, description, Race.Zerg, counters);
+	}
+}
+
+class ProtossUnit extends ScUnit {
+	constructor(name, description, counters) {
+		super(name, description, Race.Protoss, counters);
+	}
+}
+
+
+/**
+ * Ideas to make this good...
+ * Highlight units that are advantaged against more than 1 enemy
+ * Highlight units that are disadvantaged against more than 1 enemy
+ * Redo relationships with units and counter units so its easy to tell user what not to build
+ * 
+ * Toss is especially weak against lings in T1
+ * 
+ */
+
+const units = [
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////// TERRAN
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	new TerranUnit(TerranUnitType.Marine, 'Bio; Light;', [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Reaper, 'They have KD8 charge and they do great against marines'),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, 'Mix in marines'),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, 'Put a few in the back for some bonus firepower'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Baneling, 'Blow them up'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, 'Finish them off with lings'),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Zealot, `Don't build to many bc Terran can counter with firebats`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Adept, 'Put adepts in front to take initial damage and then shape back'),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Disruptor, 'Disruptors are expensive but can cut an army down before the battle starts'),
+	]),
+
+
+	new TerranUnit(TerranUnitType.Marauder, `Armored; Bonus damage to armored`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Get the upgrades`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, `Too many lings, too few Marauders`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, `Add Hydras later for more damage`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Zealot, `Zealots do well at first`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Immortals next, don't forget AA`),
+	]),
+
+	new TerranUnit(TerranUnitType.Hellbat, `Bio; Light; Mechanical; Splash; Deals bonus to light;`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Has greater range and numbers`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Hellbat, `Deals bonus damage against itself`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Baneling, `Does bonus damage against light units`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, `Roaches trade well`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Queen, `For some wholesome healing`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Adept, `Deals bonus damage to light`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Sentry, `Sheilds help with defense`),
+	]),
+
+	new TerranUnit(TerranUnitType.SiegeTank, `Armored; Mechanical; Bonus damage to armored; Splash;`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.SiegeTank, `You really need to kill the army in front and then kill the tanks. But some tanks of your own can help`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.SwarmHost, `The little guys they shoot out can absorb tank shots but you mainly need to focus on the army in front of the tanks.`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Immos are good against tanks but you mainly need to focus on the army in front of the tanks.`),
+	]),
+
+	new TerranUnit(TerranUnitType.Raven, `Light; Mechanical; Air; Detector;`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `To kill Raven`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, `To kill auto-turrets`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Viking, `Does bonus damage to mechanical`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, `EMP`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Queen, `To kill Raven`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, `To kill auto-turret`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Phoenix, `Does bonus damage to Raven`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Does bonus damage to auto-turret`),
+	]),
+
+	new TerranUnit(TerranUnitType.Liberator, `Armored; Mechanical; Air;`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `These are a good trade against libs`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Viking, `Deals bonus damage to mechanical`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, `a`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Viper, `Parasitic Bomb`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Infestor, `Fungal Growth`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, `Deals bonus damage to armored units`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Tempest, `For range`),
+	]),
+
+	new TerranUnit(TerranUnitType.Thor, `Armored; Massive; Mechanical;`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, `Switch them to high impact mode`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Ultralisk, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Viper, `Blinding cloud`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Immos deal bonus to mech`),
+	]),
+
+	new TerranUnit(TerranUnitType.BattleCruiser, `Armored; Massive; Mechanical;`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, `High Impact Payload`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, `Deals bonus damage to massive`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, `Deals bonus to armored`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Tempest, `Deals bonus to massive`),
+	]),
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////// PROTOSS
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	new ProtossUnit(ProtossUnitType.Adept, 'Light unit; Bonus to light;', [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, 'Marauders are armored which adepts are weak against'),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Raven, 'Turrets'),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, 'Defender mode'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, 'Build a bunch...'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, 'These are good too'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, 'Get some hydras once T2'),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Stalker, 'Get blink'),
+	]),
+	new ProtossUnit(ProtossUnitType.Archon, 'Psionic; Massive; All sheild; Splash; Range 3', [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, 'EMP Round spell as it deals 100 damage to shields instantly'),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, 'Liberators have better range and archons are quite clunky'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, 'Hydras will destroy the archons'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, 'Some roaches out front to tank damage'),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, 'Main counter'),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Sentry, 'Couple of sentries for sheild'),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Disruptor, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, 'If not positioned out front make sure they are useful in battle'),
+	]),
+
+	new ProtossUnit(ProtossUnitType.Carrier, 'Armored; Massive; Mechanical; Air;', [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, 'Use High Impact mode as it does lots of damage to a single unit'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, `Bonus damage against massive units`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Tempest, `Bonus damage against massive units`),
+	]),
+
+	new ProtossUnit(ProtossUnitType.Immortal, 'Armored; Aabsorbs up to 100 damage; Bonus against armored;', [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Marines don't take bonus damage from Immos`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, 'Immos cant hit and libs destroy'),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, 'EMP'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, `Immos can't touch them`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, `Hydras do lots of damage but they have to stay alive`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Ravager, `They're not armored so they can soak damage. Corrosive bile can be effective if it hits Immo`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Zealot, `They do well against Immos and Cost 1/3rd of the price`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Phoenix, `Pick up some of their immortals to spread damage/second out`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, `They're slow to kill but can help damage while in air from Phoenix`),
+	]),
+
+	new ProtossUnit(ProtossUnitType.Phoenix, 'Light; Lift enemy ground units', [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, 'Get stims and sheilds'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, 'Hydras can overwhelm with numbers even though they can be picked up'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Infestor, 'Fungal Growth'),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, `Archons are massive and can't be lifted`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Storm!`),
+	]),
+
+	new ProtossUnit(ProtossUnitType.Stalker, `Armored; Blink upgrade; Sticky;`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, `They do bonus damage to armored units. Research all upgrades.`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, `Do speed upgrade`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, `Add Hydras for a well balanced army`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Add Hydras for a well balanced army`),
+	]),
+
+	new ProtossUnit(ProtossUnitType.VoidRay, 'Armored; Bonus to armored; Vulnerable to AOE;', [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Get stims and sheild upgrades`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.WidowMine, `Get some Widow Mines for AOE`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, `EMP to take out shields`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Queen, `Void Rays struggle to kill Queens`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Infestor, `Fungal growth to slow and hurt the void rays`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Viper, `Parasitic bomb + Fungal growth = good`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Storm!`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, `For the splash damage`),
+	]),
+	new ProtossUnit(ProtossUnitType.Zealot, `Light`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Hellbat, `Get Infernal Pre-igniter upgrade`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Baneling, `Banes blow them up but use lings or roaches to finish the job`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Adept, `Adept does bonus damage to light units. Research glaive upgrade`)
+	]),
+
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////// Zerg
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	new ZergUnit(ZergUnitType.Zergling, 'Bio; Light;', [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Hellbat, 'Get upgrade'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Baneling, 'Spread them out'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, 'To give your army some hardiness'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Lurker, 'lol'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Infestor, 'Fungal growth may be good'),
+		new ScUnitCounter(Race.Protoss, `General Strategy`, `Build a minimal number of T1 units`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Storms`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, `Splash damage`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Colossus, ``),
+	]),
+
+	new ZergUnit(ZergUnitType.Baneling, 'Bio; Bonus damage to light;', [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, `In front to tank damage`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Build way back so they're not hit`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Raven, `Distract banes with auto-turret`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Baneling, `Build some banes; space them out to blow up more of theirs`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Queen, ``),
+		new ScUnitCounter(Race.Protoss, `Tip`, `Zealots and Adepts take bonus damage from banelings`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Stalker, `with blink`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Storm`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, `Splash`),
+	]),
+
+	new ZergUnit(ZergUnitType.Broodlord, `Armored; Massive; Air; `, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, `cccyaaaaaaaa`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Tempest, ``),
+	]),
+
+	new ZergUnit(ZergUnitType.Corruptor, `Armored; Bio; Massive Adv;`, [
+
+		new ScUnitCounter(Race.Terran, TerranUnitType.Viking, ``),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, `Steady Target`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Viper, `Parasitic bomb`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Queen, `Healing`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, `Bonus damage`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Storm`),
+	]),
+
+	new ZergUnit(ZergUnitType.Hydralisk, `Light; Bio;`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Build lots`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, `Add some ghosts for Steady Target`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Queen, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Lurker, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Storm`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Clean up after storm`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Disruptor, `Disruptors are a 1 shot kill`),
+	]),
+
+	new ZergUnit(ZergUnitType.Infestor, `TODO`, [
+		new ScUnitCounter(Race.Terran, `Tip`, `No idea`),
+		new ScUnitCounter(Race.Zerg, `Tip`, `No idea`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Disruptor, `They prefer Infestors`),
+	]),
+
+	new ZergUnit(ZergUnitType.Lurker, `Armored; Bio; Need Detection!;`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, ``),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, ``),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, `Roaches can win short term`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Lurker, `Build more lurkers than them`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Queen, `To heal lurkers`),
+		new ScUnitCounter(Race.Protoss, `Tip`, `Disruptor shots will not kill lurkers and queens will heal`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Feedback the queens`),
+	]),
+
+	new ZergUnit(ZergUnitType.Mutalisk, `Light; Bio; Air; AoE DisAdv;`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, ``),
+		new ScUnitCounter(Race.Terran, TerranUnitType.WidowMine, ``),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Queen, `Healing makes em hard to kill`), 
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Infestor, `Fungal Growth`), 
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, ``), 
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, `At least a few to take damage`), 
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Mutalisk, `Or counter with mutas if youre not caught by surprise`), 
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Stalker, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Storm`),
+	]),
+
+	new ZergUnit(ZergUnitType.Queen, `Bio; Healer;`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, ``),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, `Steady Target`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, `add lings and banes as needed`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Ravager, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Feedback to drain their healing ability. May not need storm. Make sure they're close enough to use feedback.`),
+	]),
+
+	new ZergUnit(ZergUnitType.Ravager, `Need lots of micro`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, ``),
+		new ScUnitCounter(Race.Zerg, `TODO`, `TODO`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, ``),
+	]),
+	new ZergUnit(ZergUnitType.Roach, `Armored; Bio;`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, `Bonus to Armored`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, `Let rest off army tank for Hydra`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Zealot, `Tank`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Bonus damage; but are vuln to lings`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Disruptor, `One shot kill`),
+	]),
+	new ZergUnit(ZergUnitType.SwarmHost, `Need Detection!`, [
+		new ScUnitCounter(Race.Terran, `TODO`, `TODO`),
+		new ScUnitCounter(Race.Zerg, `TODO`, `TODO`),
+		new ScUnitCounter(Race.Protoss, `TODO`, `May need a lot of them`),
+	]),
+	new ZergUnit(ZergUnitType.Ultralisk, `Armored; Massive;`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, `Snipe`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, `Bonus damage to armored`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Lurker, `to kill`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.SwarmHost, `to distract`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Broodlord, `to distract`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `wreck.gif`),
+	]),
+];
+
+/**
+ * 
+ * Setup
+ * 
+ */
+
+ units.forEach(u => {
+	const el = terranOptGroupEl.appendChild(document.createElement("option"));
+	el.value = u.name;
+	el.textContent = u.name;
+
+	switch (u.race) {
+		case Race.Terran: {
+
+			terranOptGroupEl.append(el);
+			break;
+		}
+		case Race.Zerg: {
+			zergOptGroupEl.append(el);
+			break;
+		}
+		case Race.Protoss: {
+			protossOptGroupEl.append(el);
+			break;
+		}
+	}
+});
+
+</script>
+</html>
