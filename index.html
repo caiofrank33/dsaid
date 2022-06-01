@@ -391,7 +391,7 @@
 		}
 
 		.counter-card-title h1 {
-			margin: 0 0 8px 0;
+			margin: 8px 0;
 		}
 
 		.card-actions {
@@ -482,9 +482,7 @@
  * DOM stuff
  */
 
-const terranOptGroupEl = document.querySelector('body > form > select > optgroup[label="Terran"]');
-const zergOptGroupEl = document.querySelector('body > form > select > optgroup[label="Zerg"]');
-const protossOptGroupEl = document.querySelector('body > form > select > optgroup[label="Protoss"]');
+const selectEl = document.querySelector('body > form > select');
 
 const outputContainer = document.querySelector('#counter-output');
 
@@ -537,7 +535,6 @@ const counterCardListItem2Templ = `
 
 function templateReplacer(template, obj) {
 	for (const prop in obj) {
-		console.log(prop)
 		template = template.replace(`%%${prop}%%`, obj[prop]);
 	}
 
@@ -592,12 +589,16 @@ function addEnemyUnit(selectObj) {
 	selectObj.value = 'empty';
 
 	const unit = units.find(u => u.name === enemyUnitName);
+	
+	getCounterCard(unit);
 
+	var unitRace = unit.race;
 
+	optGroupRaceOrder.sort((raceA, raceB) => {
+		return raceA.toLowerCase() === unitRace.charAt(0).toLowerCase() ? 1 : -1;
+	}).reverse();
 
-	//  selectEl.up
-	getCounterCard(unit)
-
+	resetUnitSelect(optGroupRaceOrder);
 	// console.log(enemyUnitName);
 }
 const TerranUnitType = {
@@ -709,7 +710,7 @@ class ProtossUnit extends ScUnit {
  * 
  */
 
-const units = [
+ const terranUnits = [
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////// TERRAN
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -785,91 +786,12 @@ const units = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, `Deals bonus to armored`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Tempest, `Deals bonus to massive`),
 	]),
+ ];
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////// PROTOSS
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	new ProtossUnit(ProtossUnitType.Adept, 'Light unit; Bonus to light;', [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, 'Marauders are armored which adepts are weak against'),
-		new ScUnitCounter(Race.Terran, TerranUnitType.Raven, 'Turrets'),
-		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, 'Defender mode'),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, 'Build a bunch...'),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, 'These are good too'),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, 'Get some hydras once T2'),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Stalker, 'Get blink'),
-	]),
-	new ProtossUnit(ProtossUnitType.Archon, 'Psionic; Massive; All sheild; Splash; Range 3', [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, 'EMP Round spell as it deals 100 damage to shields instantly'),
-		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, 'Liberators have better range and archons are quite clunky'),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, 'Hydras will destroy the archons'),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, 'Some roaches out front to tank damage'),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, 'Main counter'),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Sentry, 'Couple of sentries for sheild'),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Disruptor, ``),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, 'If not positioned out front make sure they are useful in battle'),
-	]),
-
-	new ProtossUnit(ProtossUnitType.Carrier, 'Armored; Massive; Mechanical; Air;', [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, 'Use High Impact mode as it does lots of damage to a single unit'),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, `Bonus damage against massive units`),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Tempest, `Bonus damage against massive units`),
-	]),
-
-	new ProtossUnit(ProtossUnitType.Immortal, 'Armored; Aabsorbs up to 100 damage; Bonus against armored;', [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Marines don't take bonus damage from Immos`),
-		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, 'Immos cant hit and libs destroy'),
-		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, 'EMP'),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, `Immos can't touch them`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, `Hydras do lots of damage but they have to stay alive`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Ravager, `They're not armored so they can soak damage. Corrosive bile can be effective if it hits Immo`),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Zealot, `They do well against Immos and Cost 1/3rd of the price`),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, ``),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Phoenix, `Pick up some of their immortals to spread damage/second out`),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, `They're slow to kill but can help damage while in air from Phoenix`),
-	]),
-
-	new ProtossUnit(ProtossUnitType.Phoenix, 'Light; Lift enemy ground units', [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, 'Get stims and sheilds'),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, 'Hydras can overwhelm with numbers even though they can be picked up'),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Infestor, 'Fungal Growth'),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, `Archons are massive and can't be lifted`),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, ``),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Storm!`),
-	]),
-
-	new ProtossUnit(ProtossUnitType.Stalker, `Armored; Blink upgrade; Sticky;`, [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, `They do bonus damage to armored units. Research all upgrades.`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, `Do speed upgrade`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, `Add Hydras for a well balanced army`),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Add Hydras for a well balanced army`),
-	]),
-
-	new ProtossUnit(ProtossUnitType.VoidRay, 'Armored; Bonus to armored; Vulnerable to AOE;', [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Get stims and sheild upgrades`),
-		new ScUnitCounter(Race.Terran, TerranUnitType.WidowMine, `Get some Widow Mines for AOE`),
-		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, `EMP to take out shields`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Queen, `Void Rays struggle to kill Queens`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Infestor, `Fungal growth to slow and hurt the void rays`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Viper, `Parasitic bomb + Fungal growth = good`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, ``),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Storm!`),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, ``),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, `For the splash damage`),
-	]),
-	new ProtossUnit(ProtossUnitType.Zealot, `Light`, [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Hellbat, `Get Infernal Pre-igniter upgrade`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Baneling, `Banes blow them up but use lings or roaches to finish the job`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, ``),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, ``),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Adept, `Adept does bonus damage to light units. Research glaive upgrade`)
-	]),
-
-
+ const zergUnits = [
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////// Zerg
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	new ZergUnit(ZergUnitType.Zergling, 'Bio; Light;', [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Hellbat, 'Get upgrade'),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Baneling, 'Spread them out'),
@@ -967,7 +889,7 @@ const units = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Feedback to drain their healing ability. May not need storm. Make sure they're close enough to use feedback.`),
 	]),
 
-	new ZergUnit(ZergUnitType.Ravager, `Need lots of micro`, [
+	new ZergUnit(ZergUnitType.Ravager, `TODO;`, [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, ``),
 		new ScUnitCounter(Race.Zerg, `TODO`, `TODO`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, ``),
@@ -994,7 +916,91 @@ const units = [
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Broodlord, `to distract`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `wreck.gif`),
 	]),
+ ];
+
+const protossUnits = [
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////// PROTOSS
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	new ProtossUnit(ProtossUnitType.Adept, 'Light unit; Bonus to light;', [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, 'Marauders are armored which adepts are weak against'),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Raven, 'Turrets'),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, 'Defender mode'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, 'Build a bunch...'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, 'These are good too'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, 'Get some hydras once T2'),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Stalker, 'Get blink'),
+	]),
+	new ProtossUnit(ProtossUnitType.Archon, 'Psionic; Massive; All sheild; Splash; Range 3', [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, 'EMP Round spell as it deals 100 damage to shields instantly'),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, 'Liberators have better range and archons are quite clunky'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, 'Hydras will destroy the archons'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, 'Some roaches out front to tank damage'),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, 'Main counter'),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Sentry, 'Couple of sentries for sheild'),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Disruptor, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, 'If not positioned out front make sure they are useful in battle'),
+	]),
+
+	new ProtossUnit(ProtossUnitType.Carrier, 'Armored; Massive; Mechanical; Air;', [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, 'Use High Impact mode as it does lots of damage to a single unit'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, `Bonus damage against massive units`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Tempest, `Bonus damage against massive units`),
+	]),
+
+	new ProtossUnit(ProtossUnitType.Immortal, 'Armored; Aabsorbs up to 100 damage; Bonus against armored;', [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Marines don't take bonus damage from Immos`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, 'Immos cant hit and libs destroy'),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, 'EMP'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, `Immos can't touch them`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, `Hydras do lots of damage but they have to stay alive`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Ravager, `They're not armored so they can soak damage. Corrosive bile can be effective if it hits Immo`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Zealot, `They do well against Immos and Cost 1/3rd of the price`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Phoenix, `Pick up some of their immortals to spread damage/second out`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, `They're slow to kill but can help damage while in air from Phoenix`),
+	]),
+
+	new ProtossUnit(ProtossUnitType.Phoenix, 'Light; Lift enemy ground units', [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, 'Get stims and sheilds'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, 'Hydras can overwhelm with numbers even though they can be picked up'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Infestor, 'Fungal Growth'),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, `Archons are massive and can't be lifted`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Storm!`),
+	]),
+
+	new ProtossUnit(ProtossUnitType.Stalker, `Armored; Blink upgrade; Sticky;`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, `They do bonus damage to armored units. Research all upgrades.`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, `Do speed upgrade`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, `Add Hydras for a well balanced army`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Add Hydras for a well balanced army`),
+	]),
+
+	new ProtossUnit(ProtossUnitType.VoidRay, 'Armored; Bonus to armored; Vulnerable to AOE;', [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Get stims and sheild upgrades`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.WidowMine, `Get some Widow Mines for AOE`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, `EMP to take out shields`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Queen, `Void Rays struggle to kill Queens`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Infestor, `Fungal growth to slow and hurt the void rays`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Viper, `Parasitic bomb + Fungal growth = good`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Storm!`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, `For the splash damage`),
+	]),
+	new ProtossUnit(ProtossUnitType.Zealot, `Light`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Hellbat, `Get Infernal Pre-igniter upgrade`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Baneling, `Banes blow them up but use lings or roaches to finish the job`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Adept, `Adept does bonus damage to light units. Research glaive upgrade`)
+	]),
 ];
+
+const units = protossUnits.concat(terranUnits).concat(zergUnits);
+
+const optGroupRaceOrder = ['P', 'T', 'Z'];
 
 /**
  * 
@@ -1002,27 +1008,64 @@ const units = [
  * 
  */
 
- units.forEach(u => {
-	const el = terranOptGroupEl.appendChild(document.createElement("option"));
-	el.value = u.name;
-	el.textContent = u.name;
+function resetUnitSelect(raceOrder) {
+	
 
-	switch (u.race) {
-		case Race.Terran: {
+	selectEl.innerHTML = '';
+	const emptyOptEl = document.createElement("option");
+	selectEl.appendChild(emptyOptEl);
 
-			terranOptGroupEl.append(el);
-			break;
+	raceOrder.forEach(raceOrderValue => {
+		const optGrpEl = document.createElement("optgroup");
+		optGrpEl.label = raceOrderValue === 'T' ? Race.Terran : raceOrderValue === 'Z' ? Race.Zerg : Race.Protoss;
+
+		selectEl.appendChild(optGrpEl);
+	});
+
+	// raceOrder.reduce((units, raceOrderValue) => {
+	// 	switch (raceOrderValue) {
+	// 		case 'T':
+	// 			units = units.concat(terranUnits);
+	// 			break;
+	// 		case 'Z':
+	// 			 units = units.concat(zergUnits);
+	// 			 break;
+	// 		case 'P':
+	// 			 units = units.concat(protossUnits);
+	// 			 break;
+	// 		 default:
+	// 			 break;
+	// 	 }
+	// 	 return units;
+
+	//  }, []).reverse()
+	 
+	 units.forEach(u => {
+		const el = document.createElement("option"); // terranOptGroupEl.appendChild(document.createElement("option"));
+		el.value = u.name;
+		el.textContent = u.name;
+
+		switch (u.race) {
+			case Race.Terran: {
+	
+				document.querySelector('body > form > select > optgroup[label="Terran"]').appendChild(el);
+				break;
+			}
+			case Race.Zerg: {
+				document.querySelector('body > form > select > optgroup[label="Zerg"]').appendChild(el);
+				break;
+			}
+			case Race.Protoss: {
+				document.querySelector('body > form > select > optgroup[label="Protoss"]').appendChild(el);
+				break;
+			}
 		}
-		case Race.Zerg: {
-			zergOptGroupEl.append(el);
-			break;
-		}
-		case Race.Protoss: {
-			protossOptGroupEl.append(el);
-			break;
-		}
-	}
-});
+	});
+ }
+
+
+ resetUnitSelect(optGroupRaceOrder);
+
 
 </script>
 </html>
