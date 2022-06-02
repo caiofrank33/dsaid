@@ -372,7 +372,7 @@
 		}
         .counter-card {
             border: 1px solid black;
-            border-radius: 20px;
+            border-radius: 4px;
             /* padding: 1em; */
             margin-bottom: 16px;
         }
@@ -399,11 +399,11 @@
 			font-size: 24px;
 			line-height: 36px;
 			display: grid;
-			grid-template-columns: 1fr 1fr;
+			grid-template-columns: 1fr 1fr 1fr .7fr;
 			border-bottom: 1px solid black;
 		}
 
-		.card-action:first-of-type {
+		.card-action:not(:last-of-type) {
 			border-right: 1px solid black;
 		}
 
@@ -411,6 +411,15 @@
 			width: 100%;
 			height: 100%;
 			text-align: center;
+			opacity: .5;
+		}
+		
+		.card-action.is-on {
+			opacity: 1;
+		}
+
+		#race-toggle-P.card-action.is-on, #race-toggle-T.card-action.is-on, #race-toggle-Z.card-action.is-on {
+			font-weight: bold;
 		}
 
         .counter-card-title h1, .counter-card-title code {
@@ -451,30 +460,8 @@
     </form>
 
     <div id="counter-output">
-        <!-- <div class="counter-card">
-            <div class="counter-card-title">
-                <h1>
-                    Baneling
-                </h1>
-            </div>
-            <div id="counter-card-body">
-                <div class="counter-card-body-item">
-                    <h3 class="race-title">As Zerg...</h3>
-                    <ul class="counter-list">
-                        <li>Baneling: build fewer than the opponent and space them out so one of your banes kills 3 of theirs</li>
-                        <li>Zergling: </li>
-                        <li>Roach</li>
-                    </ul>
-                </div>
-            </div>
-        </div> -->
-    </div>
 
-
-
-
-
-    
+    </div>    
 </body>
 <script>
 	
@@ -489,8 +476,11 @@ const outputContainer = document.querySelector('#counter-output');
 const counterCardBodyTempl = `
 		<div class="counter-card-title">
 			<div class="card-actions">
-				<div class="card-action" onclick="toggleCollapse(this)">-</div>
-				<div class="card-action" onclick="closeCard(this)">X</div>
+				<!-- <div class="card-action is-on" onclick="toggleCollapse(this)">-</div> -->
+				<div id="race-toggle-P" class="card-action is-on" onclick="toggleRaceVisibility('Protoss', this)">P</div>
+				<div id="race-toggle-T" class="card-action is-on" onclick="toggleRaceVisibility('Terran', this)">T</div>
+				<div id="race-toggle-Z" class="card-action is-on" onclick="toggleRaceVisibility('Zerg', this)">Z</div>
+				<div class="card-action is-on" onclick="closeCard(this)">X</div>
 			</div>
 			<h1>%%name%%</h1>
             <code>%%description%%</code>
@@ -505,18 +495,43 @@ function closeCard(el) {
 }
 
 function toggleCollapse(el) {
-	if (el.parentElement.parentElement.parentElement.classList.contains(`is-collapsed`)) {
-		el.parentElement.parentElement.parentElement.classList.remove(`is-collapsed`);
+	const cardEl = el.parentElement.parentElement.parentElement;
+	if (cardEl.classList.contains(`is-collapsed`)) {
+		cardEl.classList.remove(`is-collapsed`);
 	} else {
-		el.parentElement.parentElement.parentElement.classList.add(`is-collapsed`);
+		cardEl.classList.add(`is-collapsed`);
 	}
-	// el.parentElement.parentElement.parentElement.classList.add("is-collapsed")
+}
+
+function toggleRaceVisibility(race, cardActionEl) {
+
+	const isOn = cardActionEl.classList.contains('is-on');
+
+	let bodyElSelector = '.counter-card-body-item.Protoss';
+
+	switch (race) {
+		case Race.Terran:
+			bodyElSelector = '.counter-card-body-item.Terran';
+			break;
+	
+		case Race.Zerg:
+			bodyElSelector = '.counter-card-body-item.Zerg';
+			break;
+	}
+
+	if (isOn) {
+		cardActionEl.classList.remove('is-on');
+		document.querySelector(bodyElSelector).setAttribute('hidden', true);
+	} else {
+		cardActionEl.classList.add('is-on');
+		document.querySelector(bodyElSelector).removeAttribute('hidden');
+	}
 
 }
 
 
 const counterCardBodyItemTempl = `
-	<div class="counter-card-body-item">
+	<div class="counter-card-body-item %%race%%">
 		<h3 class="race-title">As %%race%%...</h3>
 		<ul class="counter-list">
 			%%counterCardListItemTempls%%
@@ -535,7 +550,7 @@ const counterCardListItem2Templ = `
 
 function templateReplacer(template, obj) {
 	for (const prop in obj) {
-		template = template.replace(`%%${prop}%%`, obj[prop]);
+		template = template.replaceAll(`%%${prop}%%`, obj[prop]);
 	}
 
 	return template;
