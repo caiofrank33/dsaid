@@ -411,7 +411,7 @@
 			width: 100%;
 			height: 100%;
 			text-align: center;
-			opacity: .5;
+			opacity: .2;
 		}
 		
 		.card-action.is-on {
@@ -419,7 +419,7 @@
 		}
 
 		.card-action.close-card {
-			color: red;
+			/* color: red; */
 			opacity: .5;
 		}
 
@@ -456,8 +456,47 @@
 			border-radius: 4px;
 			color: white;
 			background-color: #5eba7d;
-			padding: 12px;
+			
 			margin: 4px;
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.multi-counter-item .multi-counter-item-text {
+			padding: 12px;
+			border-right: 1px solid white;
+		}
+
+		.close-multi-counter-item {
+			font-family: monospace;
+			font-size: 24px;
+			line-height: 36px;
+			padding: 12px 14px 12px 12px;
+			border: none;
+			background: none;
+			color: white;
+		}
+
+		.Protoss-race-color {
+			color: #088008;
+		}
+		.Terran-race-color {
+			color: #F88C14;
+		}
+		.Zerg-race-color {
+			color: #88409C;
+		}
+
+		.Protoss-race-bg-color {
+			background-color: #088008;
+		}
+		.Terran-race-bg-color {
+			background-color: #F88C14;
+		}
+		.Zerg-race-bg-color {
+			background-color: #88409C;
 		}
     </style>
 
@@ -469,27 +508,24 @@
     
     <form>
         <label for="unit-selection">Choose the unit you want to counter</label>
-        <select name="Unit section" id="unit-selection" onchange="addEnemyUnit(this)">
+        <select name="Unit section" id="unit-selection" onchange="renderAddCard(this)">
             <option value="empty"></option>
             <optgroup label="Terran"></optgroup>
             <optgroup label="Zerg"></optgroup>
             <optgroup label="Protoss"></optgroup>
         </select>
     </form>
-
 	<div id="multi-counter-output">
-
-
+		<!-- Output goes here -->
 	</div>
-
     <div id="counter-output">
-
-    </div>    
+		<!-- Output goes here -->
+	</div>    
 </body>
 <script>
 	
 /**
- * DOM stuff
+ * SELECTORS
  */
 
 const selectEl = document.querySelector('body > form > select');
@@ -497,14 +533,25 @@ const selectEl = document.querySelector('body > form > select');
 const outputContainer = document.querySelector('#counter-output');
 const multiCounterOutputEl = document.querySelector('#multi-counter-output');
 
+/**
+ * TEMPLATES
+ */
+ function templateReplacer(template, obj) {
+	for (const prop in obj) {
+		template = template.replaceAll(`%%${prop}%%`, obj[prop]);
+	}
+
+	return template;
+}
+
 const counterCardBodyTempl = `
 		<div class="counter-card-title">
 			<div class="card-actions">
-				<!-- <div class="card-action is-on" onclick="toggleCollapse(this)">-</div> -->
-				<div id="race-toggle-P" class="card-action race-toggle-action %%Protoss_is_on%%" onclick="toggleRaceVisibility('Protoss', this)">P</div>
-				<div id="race-toggle-T" class="card-action race-toggle-action %%Terran_is_on%%" onclick="toggleRaceVisibility('Terran', this)">T</div>
-				<div id="race-toggle-Z" class="card-action race-toggle-action %%Zerg_is_on%%" onclick="toggleRaceVisibility('Zerg', this)">Z</div>
-				<div class="card-action close-card" onclick="closeCard(this)">X</div>
+				<!-- <div class="card-action is-on" onclick="renderToggleCollapse(this)">-</div> -->
+				<div id="race-toggle-P" class="card-action race-toggle-action Protoss-race-color %%Protoss_is_on%%" onclick="renderToggleRaceVisibility('Protoss', this)">P</div>
+				<div id="race-toggle-T" class="card-action race-toggle-action Terran-race-color %%Terran_is_on%%" onclick="renderToggleRaceVisibility('Terran', this)">T</div>
+				<div id="race-toggle-Z" class="card-action race-toggle-action Zerg-race-color %%Zerg_is_on%%" onclick="renderToggleRaceVisibility('Zerg', this)">Z</div>
+				<div class="card-action close-card" onclick="renderCloseCard(this)">X</div>
 			</div>
 			<h1 class="unit-to-counter">%%name%%</h1>
             <code>%%description%%</code>
@@ -514,47 +561,35 @@ const counterCardBodyTempl = `
 		</div>
 `;
 
-function closeCard(el) {
-	el.parentElement.parentElement.parentElement.remove();
+const counterCardBodyItemTempl = `
+	<div class="counter-card-body-item %%race%%" %%is_hidden%%>
+		<h3 class="race-title %%race%%-race-color">As %%race%%...</h3>
+		<ul class="counter-list">
+			%%counterCardListItemTempls%%
+		</ul>
+	</div>
+`;
 
-	renderMultiCounterItems();
-}
+const counterCardListItemTempl = `
+	<li><strong>%%name%%</strong>: %%counterDescription%%</li>
+`;
 
-function toggleCollapse(el) {
-	const cardEl = el.parentElement.parentElement.parentElement;
-	if (cardEl.classList.contains(`is-collapsed`)) {
-		cardEl.classList.remove(`is-collapsed`);
-	} else {
-		cardEl.classList.add(`is-collapsed`);
-	}
-}
+const counterCardListItem2Templ = `
+	<li><strong>%%name%%</strong></li>
+`;
 
-function toggleRaceVisibility(race, cardActionEl) {
-	let bodyElSelector = '.counter-card-body-item.Protoss';
+const multiCounterItemTempl = `
+	<div class="multi-counter-item-text">
+		<strong>(%%unit_count%%)</strong> <strong>%%counter_name%%</strong> counters <strong>%%unit_names%%</strong>
+	</div>
+	<button type="button" class="close-multi-counter-item" onclick="renderCloseMultiCounter('%%counter_name%%', '%%unit_count%%', this)">
+		X
+	</button>
+`;
 
-	switch (race) {
-		case Race.Terran:
-			bodyElSelector = '.counter-card-body-item.Terran';
-			break;
-	
-		case Race.Zerg:
-			bodyElSelector = '.counter-card-body-item.Zerg';
-			break;
-	}
-
-	const isOn = cardActionEl.classList.contains('is-on');
-
-	if (isOn) {
-		cardActionEl.classList.remove('is-on');
-		cardActionEl.parentElement.parentElement.parentElement.querySelector(bodyElSelector).setAttribute('hidden', true);
-	} else {
-		cardActionEl.classList.add('is-on');
-		cardActionEl.parentElement.parentElement.parentElement.querySelector(bodyElSelector).removeAttribute('hidden');
-	}
-
-	updateHideRaceCountersState()
-}
-
+/**
+ * HELPERS
+ */
 function updateHideRaceCountersState() {
 	hideRaceCounters.length = 0;
 
@@ -582,35 +617,96 @@ function updateHideRaceCountersState() {
 	}
 }
 
+function getSelectedUnits() {
+	const unitToCounterNames = [];
+	const unitToCounterEls = document.querySelectorAll('.counter-card .unit-to-counter');
 
-const counterCardBodyItemTempl = `
-	<div class="counter-card-body-item %%race%%" %%is_hidden%%>
-		<h3 class="race-title">As %%race%%...</h3>
-		<ul class="counter-list">
-			%%counterCardListItemTempls%%
-		</ul>
-	</div>
-`;
+	unitToCounterEls.forEach(el => {
+		unitToCounterNames.push(el.innerHTML);
+	});
 
-
-const counterCardListItemTempl = `
-	<li><strong>%%name%%</strong>: %%counterDescription%%</li>
-`;
-
-const counterCardListItem2Templ = `
-	<li><strong>%%name%%</strong></li>
-`;
-
-const multiCounterItemTempl = `
-	<strong>%%counter_names%%</strong> is a counter for <strong>%%unit_count%% units</strong> <strong>(%%unit_names%%)</strong>
-`;
-
-function templateReplacer(template, obj) {
-	for (const prop in obj) {
-		template = template.replaceAll(`%%${prop}%%`, obj[prop]);
+	return unitToCounterNames;
+}
+/**
+ * 
+ * Interaction
+ * 
+ */
+function renderAddCard(selectObj) {
+	const enemyUnitName = selectObj.options[selectObj.selectedIndex].value
+	if (enemyUnitName === 'empty') {
+		console.log('empty selection')
+		return;
 	}
 
-	return template;
+	selectObj.value = 'empty';
+
+	const unit = units.find(u => u.name === enemyUnitName);
+	
+	renderCounterCard(unit);
+
+	var unitRace = unit.race;
+
+	optGroupRaceOrder.sort((raceA, raceB) => {
+		return raceA.toLowerCase() === unitRace.charAt(0).toLowerCase() ? 1 : -1;
+	}).reverse();
+
+	renderResetUnitSelect(optGroupRaceOrder);
+	renderMultiCounterItems();
+
+
+	// console.log(enemyUnitName);
+}
+
+function renderCloseCard(el) {
+	el.parentElement.parentElement.parentElement.remove();
+
+	renderMultiCounterItems();
+	renderResetUnitSelect(optGroupRaceOrder);
+}
+
+function renderCloseMultiCounter(unitName, counterCount, el) {
+	el.parentElement.remove();
+
+	if (!hideMultiCounters[unitName]) {
+		hideMultiCounters[unitName] = counterCount;
+	}
+
+}
+
+function renderToggleCollapse(el) {
+	const cardEl = el.parentElement.parentElement.parentElement;
+	if (cardEl.classList.contains(`is-collapsed`)) {
+		cardEl.classList.remove(`is-collapsed`);
+	} else {
+		cardEl.classList.add(`is-collapsed`);
+	}
+}
+
+function renderToggleRaceVisibility(race, cardActionEl) {
+	let bodyElSelector = '.counter-card-body-item.Protoss';
+
+	switch (race) {
+		case Race.Terran:
+			bodyElSelector = '.counter-card-body-item.Terran';
+			break;
+	
+		case Race.Zerg:
+			bodyElSelector = '.counter-card-body-item.Zerg';
+			break;
+	}
+
+	const isOn = cardActionEl.classList.contains('is-on');
+
+	if (isOn) {
+		cardActionEl.classList.remove('is-on');
+		cardActionEl.parentElement.parentElement.parentElement.querySelector(bodyElSelector).setAttribute('hidden', true);
+	} else {
+		cardActionEl.classList.add('is-on');
+		cardActionEl.parentElement.parentElement.parentElement.querySelector(bodyElSelector).removeAttribute('hidden');
+	}
+
+	updateHideRaceCountersState()
 }
 
 function renderCounterCard(scUnit) {
@@ -659,99 +755,92 @@ function renderCounterCard(scUnit) {
 }
 
 function renderMultiCounterItems() {
-	const unitToCounterEls = document.querySelectorAll('.counter-card .unit-to-counter');
-	const unitToCounterNames = [];
+	const unitToCounterNames = getSelectedUnits();
 
-	unitToCounterEls.forEach(el => {
-		unitToCounterNames.push(el.innerHTML);
-	});
-
-	const unitsToCounter = units.filter(u => unitToCounterNames.indexOf(u.name) >= 0)
-	// console.log('u', unitsToCounter);
+	const unitsToCounter = units.filter(u => unitToCounterNames.indexOf(u.name) >= 0);
 
 	const allCounters = unitsToCounter.filter(u => u.name.toLowerCase() !== 'tip' && u.name.toLowerCase() !== 'todo').reduce((agg, u) => {
-		u.counters.forEach(cu => {
-			if (!Array.isArray(agg[cu.name])) {
-				agg[cu.name] = [u.name];
+		u.counters.filter(cu => cu.name.toLowerCase() !== 'tip' && cu.name.toLowerCase() !== 'todo').forEach(cu => {
+			if (!agg[cu.name] && !Array.isArray(agg[cu.name])) {
+				agg[cu.name] = { race: cu.race, counters: [u.name]};
 			} else {
-				agg[cu.name].push(u.name);
+				agg[cu.name].counters.push(u.name);
 			}
 		});
 
 		return agg;
 	}, {});
 
-	// const result = allCounters.reduce((a, b) => a.filter(c => b.includes(c)));
-	// TODO copied ^ from Stack Overflow, need to make it work for this data shape 
-
-	console.log('multi-counters', allCounters);
-
 	const multiCounterEls = [];
-	let ceiling = 3
+	let ceiling = 4
 
-	for (const [key, value] of Object.entries(allCounters).sort((grpA, grpB) => grpA[1].length > grpB[1].length ? -1 : 1)) {
-		// console.log(`${key}: ${value}`);
+	// console.log('asdf', Object.entries(allCounters));
 
-		if (value.length > ceiling) {
-			ceiling = value.length;
+	for (const [counterUnitName, counterUnitData] of Object.entries(allCounters).sort((grpA, grpB) => grpA[1].counters.length > grpB[1].counters.length ? -1 : 1)) {
+		if (hideMultiCounters[counterUnitName]) {
+			continue;
 		}
 
-		if (value.length >= (ceiling - 1)) {
+		if (counterUnitData.counters.length > ceiling) {
+			ceiling = counterUnitData.length;
+		}
+
+
+		if (counterUnitData.counters.length >= (ceiling - 2)) {
 			const multiCounterEl = document.createElement("div");
-			multiCounterEl.className = 'multi-counter-item';
-			multiCounterEl.innerHTML = templateReplacer(multiCounterItemTempl, { counter_names: key, unit_count: value.length, unit_names: `${value}` });
+			multiCounterEl.classList.add('multi-counter-item', `${counterUnitData.race}-race-bg-color`);
+			multiCounterEl.innerHTML = templateReplacer(multiCounterItemTempl, { counter_name: counterUnitName, unit_count: counterUnitData.counters.length, unit_names: `${counterUnitData.counters.join(', ')}` });
 
 			multiCounterEls.push(multiCounterEl);
-			
 		}
-		
 	}
 
 	multiCounterOutputEl.innerHTML = "";
 
-	for (const el of multiCounterEls.reverse()) {
-		multiCounterOutputEl.insertBefore(el, multiCounterOutputEl.firstChild);
+	for (const el of multiCounterEls) {
+		multiCounterOutputEl.append(el);
 	}
-
-
-
-
-	// multiCounterOutputEl.innerHTML = 
-
-
 }
 
-/**
- * 
- * Interaction
- * 
- */
+function renderResetUnitSelect(raceOrder) {
+	selectEl.innerHTML = '';
+	const emptyOptEl = document.createElement("option");
+	selectEl.appendChild(emptyOptEl);
 
-function addEnemyUnit(selectObj) {
-	const enemyUnitName = selectObj.options[selectObj.selectedIndex].value
-	if (enemyUnitName === 'empty') {
-		console.log('empty selection')
-		return;
-	}
+	raceOrder.forEach(raceOrderValue => {
+		const optGrpEl = document.createElement("optgroup");
+		optGrpEl.label = raceOrderValue === 'T' ? Race.Terran : raceOrderValue === 'Z' ? Race.Zerg : Race.Protoss;
 
-	selectObj.value = 'empty';
+		selectEl.appendChild(optGrpEl);
+	});
 
-	const unit = units.find(u => u.name === enemyUnitName);
+	const alreadySelectedUnits = getSelectedUnits();
+
 	
-	renderCounterCard(unit);
 
-	var unitRace = unit.race;
+	units.filter(u => alreadySelectedUnits.indexOf(u.name) === -1).forEach(u => {
+		const el = document.createElement("option"); // terranOptGroupEl.appendChild(document.createElement("option"));
+		el.value = u.name;
+		el.textContent = u.name;
 
-	optGroupRaceOrder.sort((raceA, raceB) => {
-		return raceA.toLowerCase() === unitRace.charAt(0).toLowerCase() ? 1 : -1;
-	}).reverse();
-
-	resetUnitSelect(optGroupRaceOrder);
-	renderMultiCounterItems();
-
-
-	// console.log(enemyUnitName);
+		switch (u.race) {
+			case Race.Terran: {
+	
+				document.querySelector('body > form > select > optgroup[label="Terran"]').appendChild(el);
+				break;
+			}
+			case Race.Zerg: {
+				document.querySelector('body > form > select > optgroup[label="Zerg"]').appendChild(el);
+				break;
+			}
+			case Race.Protoss: {
+				document.querySelector('body > form > select > optgroup[label="Protoss"]').appendChild(el);
+				break;
+			}
+		}
+	});
 }
+
 const TerranUnitType = {
 	Ghost: 'Ghost',
 	Marine: 'Marine',
@@ -808,7 +897,6 @@ const ProtossUnitType = {
 	_LaserFlyer_: '_LaserFlyer_',
 };
 
-
 const Race = {
 	Terran: "Terran",
 	Zerg: "Zerg",
@@ -849,17 +937,6 @@ class ProtossUnit extends ScUnit {
 		super(name, description, Race.Protoss, counters);
 	}
 }
-
-
-/**
- * Ideas to make this good...
- * Highlight units that are advantaged against more than 1 enemy
- * Highlight units that are disadvantaged against more than 1 enemy
- * Redo relationships with units and counter units so its easy to tell user what not to build
- * 
- * Toss is especially weak against lings in T1
- * 
- */
 
  const terranUnits = [
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1153,71 +1230,27 @@ const units = protossUnits.concat(terranUnits).concat(zergUnits);
 
 const optGroupRaceOrder = ['P', 'T', 'Z'];
 const hideRaceCounters = [];
+const hideMultiCounters = {};
 
 /**
  * 
- * Setup
+ * INIT
  * 
  */
+function init() {
+	renderResetUnitSelect(optGroupRaceOrder);
+}
 
-function resetUnitSelect(raceOrder) {
-	
+init();
 
-	selectEl.innerHTML = '';
-	const emptyOptEl = document.createElement("option");
-	selectEl.appendChild(emptyOptEl);
-
-	raceOrder.forEach(raceOrderValue => {
-		const optGrpEl = document.createElement("optgroup");
-		optGrpEl.label = raceOrderValue === 'T' ? Race.Terran : raceOrderValue === 'Z' ? Race.Zerg : Race.Protoss;
-
-		selectEl.appendChild(optGrpEl);
-	});
-
-	// raceOrder.reduce((units, raceOrderValue) => {
-	// 	switch (raceOrderValue) {
-	// 		case 'T':
-	// 			units = units.concat(terranUnits);
-	// 			break;
-	// 		case 'Z':
-	// 			 units = units.concat(zergUnits);
-	// 			 break;
-	// 		case 'P':
-	// 			 units = units.concat(protossUnits);
-	// 			 break;
-	// 		 default:
-	// 			 break;
-	// 	 }
-	// 	 return units;
-
-	//  }, []).reverse()
-	 
-	 units.forEach(u => {
-		const el = document.createElement("option"); // terranOptGroupEl.appendChild(document.createElement("option"));
-		el.value = u.name;
-		el.textContent = u.name;
-
-		switch (u.race) {
-			case Race.Terran: {
-	
-				document.querySelector('body > form > select > optgroup[label="Terran"]').appendChild(el);
-				break;
-			}
-			case Race.Zerg: {
-				document.querySelector('body > form > select > optgroup[label="Zerg"]').appendChild(el);
-				break;
-			}
-			case Race.Protoss: {
-				document.querySelector('body > form > select > optgroup[label="Protoss"]').appendChild(el);
-				break;
-			}
-		}
-	});
- }
-
-
- resetUnitSelect(optGroupRaceOrder);
-
+/**
+ * Ideas to make this good...
+ * Highlight units that are disadvantaged against more than 1 enemy
+ * Redo relationships with units and counter units so its easy to tell user what not to build
+ * 
+ * Add tips like: Toss is especially weak against lings in T1
+ * 
+ */
 
 </script>
 </html>
