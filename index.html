@@ -418,6 +418,11 @@
 			opacity: 1;
 		}
 
+		.card-action.close-card {
+			color: red;
+			opacity: .5;
+		}
+
 		#race-toggle-P.card-action.is-on, #race-toggle-T.card-action.is-on, #race-toggle-Z.card-action.is-on {
 			font-weight: bold;
 		}
@@ -441,6 +446,19 @@
         .counter-card-body-item .counter-list {
             padding: 0 2em;
         }
+
+		#multi-counter-output {
+			margin-bottom: 1em;
+		}
+
+		.multi-counter-item {
+			/* border: 1px solid green; */
+			border-radius: 4px;
+			color: white;
+			background-color: #5eba7d;
+			padding: 12px;
+			margin: 4px;
+		}
     </style>
 
     <title>DS Aid</title>
@@ -459,6 +477,11 @@
         </select>
     </form>
 
+	<div id="multi-counter-output">
+
+
+	</div>
+
     <div id="counter-output">
 
     </div>    
@@ -472,17 +495,18 @@
 const selectEl = document.querySelector('body > form > select');
 
 const outputContainer = document.querySelector('#counter-output');
+const multiCounterOutputEl = document.querySelector('#multi-counter-output');
 
 const counterCardBodyTempl = `
 		<div class="counter-card-title">
 			<div class="card-actions">
 				<!-- <div class="card-action is-on" onclick="toggleCollapse(this)">-</div> -->
-				<div id="race-toggle-P" class="card-action is-on" onclick="toggleRaceVisibility('Protoss', this)">P</div>
-				<div id="race-toggle-T" class="card-action is-on" onclick="toggleRaceVisibility('Terran', this)">T</div>
-				<div id="race-toggle-Z" class="card-action is-on" onclick="toggleRaceVisibility('Zerg', this)">Z</div>
-				<div class="card-action is-on" onclick="closeCard(this)">X</div>
+				<div id="race-toggle-P" class="card-action race-toggle-action %%Protoss_is_on%%" onclick="toggleRaceVisibility('Protoss', this)">P</div>
+				<div id="race-toggle-T" class="card-action race-toggle-action %%Terran_is_on%%" onclick="toggleRaceVisibility('Terran', this)">T</div>
+				<div id="race-toggle-Z" class="card-action race-toggle-action %%Zerg_is_on%%" onclick="toggleRaceVisibility('Zerg', this)">Z</div>
+				<div class="card-action close-card" onclick="closeCard(this)">X</div>
 			</div>
-			<h1>%%name%%</h1>
+			<h1 class="unit-to-counter">%%name%%</h1>
             <code>%%description%%</code>
 		</div>
 		<div id="counter-card-body">
@@ -492,6 +516,8 @@ const counterCardBodyTempl = `
 
 function closeCard(el) {
 	el.parentElement.parentElement.parentElement.remove();
+
+	renderMultiCounterItems();
 }
 
 function toggleCollapse(el) {
@@ -504,9 +530,6 @@ function toggleCollapse(el) {
 }
 
 function toggleRaceVisibility(race, cardActionEl) {
-
-	const isOn = cardActionEl.classList.contains('is-on');
-
 	let bodyElSelector = '.counter-card-body-item.Protoss';
 
 	switch (race) {
@@ -519,19 +542,49 @@ function toggleRaceVisibility(race, cardActionEl) {
 			break;
 	}
 
+	const isOn = cardActionEl.classList.contains('is-on');
+
 	if (isOn) {
 		cardActionEl.classList.remove('is-on');
-		document.querySelector(bodyElSelector).setAttribute('hidden', true);
+		cardActionEl.parentElement.parentElement.parentElement.querySelector(bodyElSelector).setAttribute('hidden', true);
 	} else {
 		cardActionEl.classList.add('is-on');
-		document.querySelector(bodyElSelector).removeAttribute('hidden');
+		cardActionEl.parentElement.parentElement.parentElement.querySelector(bodyElSelector).removeAttribute('hidden');
 	}
 
+	updateHideRaceCountersState()
+}
+
+function updateHideRaceCountersState() {
+	hideRaceCounters.length = 0;
+
+	const firstCounterCard = document.querySelector('#counter-output .counter-card');
+
+	if (!firstCounterCard) {
+		console.warn('Set `hideRaceCounters` to empty but there is no counter card to repopulate it');
+		return;
+	}
+
+	const hideProtoss = firstCounterCard.querySelector('#race-toggle-P.is-on') == null;
+	const hideTerran = firstCounterCard.querySelector('#race-toggle-T.is-on') == null;
+	const hideZerg = firstCounterCard.querySelector('#race-toggle-Z.is-on') == null;
+
+	if (hideProtoss) {
+		hideRaceCounters.push('Protoss')
+	}
+
+	if (hideTerran) {
+		hideRaceCounters.push('Terran')
+	}
+
+	if (hideZerg) {
+		hideRaceCounters.push('Zerg')
+	}
 }
 
 
 const counterCardBodyItemTempl = `
-	<div class="counter-card-body-item %%race%%">
+	<div class="counter-card-body-item %%race%%" %%is_hidden%%>
 		<h3 class="race-title">As %%race%%...</h3>
 		<ul class="counter-list">
 			%%counterCardListItemTempls%%
@@ -548,6 +601,10 @@ const counterCardListItem2Templ = `
 	<li><strong>%%name%%</strong></li>
 `;
 
+const multiCounterItemTempl = `
+	<strong>%%counter_names%%</strong> is a counter for <strong>%%unit_count%% units</strong> <strong>(%%unit_names%%)</strong>
+`;
+
 function templateReplacer(template, obj) {
 	for (const prop in obj) {
 		template = template.replaceAll(`%%${prop}%%`, obj[prop]);
@@ -556,7 +613,7 @@ function templateReplacer(template, obj) {
 	return template;
 }
 
-function getCounterCard(scUnit) {
+function renderCounterCard(scUnit) {
 	const counterListContainer = document.createElement('ul');
 	counterListContainer.className = 'counter-list'
 
@@ -577,15 +634,85 @@ function getCounterCard(scUnit) {
 		return agg;
 	}, '');
 
+	const shouldHideProtoss = hideRaceCounters.indexOf('Protoss') > -1;
+	const shouldHideTerran = hideRaceCounters.indexOf('Terran') > -1;
+	const shouldHideZerg = hideRaceCounters.indexOf('Zerg') > -1;
 
-	const protossCardBodyItemHtml = templateReplacer(counterCardBodyItemTempl, { race: 'Protoss', counterCardListItemTempls: protossCounterListItems })
-	const terranCardBodyItemHtml = templateReplacer(counterCardBodyItemTempl, { race: 'Terran', counterCardListItemTempls: terranCounterListItems })
-	const zergCardBodyItemHtml = templateReplacer(counterCardBodyItemTempl, { race: 'Zerg', counterCardListItemTempls: zergCounterListItems })
+
+	const protossCardBodyItemHtml = templateReplacer(counterCardBodyItemTempl, { race: 'Protoss', counterCardListItemTempls: protossCounterListItems, is_hidden: shouldHideProtoss ? 'hidden=true' : '' })
+	const terranCardBodyItemHtml = templateReplacer(counterCardBodyItemTempl, { race: 'Terran', counterCardListItemTempls: terranCounterListItems, is_hidden: shouldHideTerran ? 'hidden=true' : '' })
+	const zergCardBodyItemHtml = templateReplacer(counterCardBodyItemTempl, { race: 'Zerg', counterCardListItemTempls: zergCounterListItems, is_hidden: shouldHideZerg ? 'hidden=true' : '' })
 
 	const cardHtml = document.createElement("div");
 	cardHtml.className = "counter-card";
-	cardHtml.innerHTML = templateReplacer(counterCardBodyTempl, { name: scUnit.name, description: scUnit.description, counterCardBodyItemTempls: protossCardBodyItemHtml + terranCardBodyItemHtml + zergCardBodyItemHtml });
+	cardHtml.innerHTML = templateReplacer(counterCardBodyTempl, 
+		{ 
+			name: scUnit.name, 
+			description: scUnit.description,
+			Protoss_is_on: shouldHideProtoss ? '' : 'is-on',
+			Terran_is_on: shouldHideTerran ? '' : 'is-on',
+			Zerg_is_on: shouldHideZerg ? '' : 'is-on',
+			counterCardBodyItemTempls: protossCardBodyItemHtml + terranCardBodyItemHtml + zergCardBodyItemHtml 
+		}
+	);
 	outputContainer.insertBefore(cardHtml, outputContainer.firstChild);
+}
+
+function renderMultiCounterItems() {
+	const unitToCounterEls = document.querySelectorAll('.counter-card .unit-to-counter');
+	const unitToCounterNames = [];
+
+	unitToCounterEls.forEach(el => {
+		unitToCounterNames.push(el.innerHTML);
+	});
+
+	const unitsToCounter = units.filter(u => unitToCounterNames.indexOf(u.name) >= 0)
+	// console.log('u', unitsToCounter);
+
+	const allCounters = unitsToCounter.filter(u => u.name.toLowerCase() !== 'tip').reduce((agg, u) => {
+		u.counters.forEach(cu => {
+			if (!Array.isArray(agg[cu.name])) {
+				agg[cu.name] = [u.name];
+			} else {
+				agg[cu.name].push(u.name);
+			}
+		});
+
+		return agg;
+	}, {});
+
+	// const result = allCounters.reduce((a, b) => a.filter(c => b.includes(c)));
+	// TODO copied ^ from Stack Overflow, need to make it work for this data shape 
+
+	console.log('multi-counters', allCounters);
+
+	const multiCounterEls = [];
+
+	for (const [key, value] of Object.entries(allCounters)) {
+		// console.log(`${key}: ${value}`);
+		if (value.length > 2) {
+			const multiCounterEl = document.createElement("div");
+			multiCounterEl.className = 'multi-counter-item';
+			multiCounterEl.innerHTML = templateReplacer(multiCounterItemTempl, { counter_names: key, unit_count: value.length, unit_names: `${value}` });
+
+			multiCounterEls.push(multiCounterEl);
+			
+		}
+		
+	}
+
+	multiCounterOutputEl.innerHTML = "";
+
+	for (const el of multiCounterEls) {
+		multiCounterOutputEl.insertBefore(el, multiCounterOutputEl.firstChild);
+	}
+
+
+
+
+	// multiCounterOutputEl.innerHTML = 
+
+
 }
 
 /**
@@ -605,7 +732,7 @@ function addEnemyUnit(selectObj) {
 
 	const unit = units.find(u => u.name === enemyUnitName);
 	
-	getCounterCard(unit);
+	renderCounterCard(unit);
 
 	var unitRace = unit.race;
 
@@ -614,6 +741,9 @@ function addEnemyUnit(selectObj) {
 	}).reverse();
 
 	resetUnitSelect(optGroupRaceOrder);
+	renderMultiCounterItems();
+
+
 	// console.log(enemyUnitName);
 }
 const TerranUnitType = {
@@ -666,7 +796,7 @@ const ProtossUnitType = {
 	Sentry: 'Sentry',
 	Stalker: 'Stalker',
 	Tempest: 'Tempest',
-	VoidRay: 'VoidRay',
+	VoidRay: 'Void Ray',
 	Zealot: 'Zealot',
 	TODO: 'TODO',
 	_LaserFlyer_: '_LaserFlyer_',
@@ -1016,6 +1146,7 @@ const protossUnits = [
 const units = protossUnits.concat(terranUnits).concat(zergUnits);
 
 const optGroupRaceOrder = ['P', 'T', 'Z'];
+const hideRaceCounters = [];
 
 /**
  * 
