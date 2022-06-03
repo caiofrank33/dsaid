@@ -7,7 +7,7 @@
         body {
             font-family:'Courier New', Courier, monospace;
             font-size: 16px;
-            
+            background-color: #f2f2f2;
         }
     </style>
     <style>
@@ -366,65 +366,98 @@
         body {
             margin: 0 1em;
         }
-		form select {
+
+		.Protoss-race-color {
+			color: #088008;
+		}
+		.Terran-race-color {
+			color: #F88C14;
+		}
+		.Zerg-race-color {
+			color: #88409C;
+		}
+
+		.Protoss-race-bg-color {
+			background-color: #088008;
+		}
+		.Terran-race-bg-color {
+			background-color: #F88C14;
+		}
+		.Zerg-race-bg-color {
+			background-color: #88409C;
+		}
+
+		select#unit-selection {
 			width: 100%;
     		height: 48px;
 		}
+
         .counter-card {
-            border: 1px solid black;
+            border: 2px solid #1E1E1E;
             border-radius: 4px;
             /* padding: 1em; */
             margin-bottom: 16px;
+			background-color: white;
+
         }
 
         .counter-card-title {
-            border-bottom: 1px solid black;
+            border-bottom: 2px solid #1E1E1E;
             /* margin: 0 -1em; */
         }
 
-		.counter-card.is-collapsed .counter-card-title {
+		/* .counter-card.is-collapsed .counter-card-title {
 			border-bottom: none;
 		}
 
 		.counter-card.is-collapsed #counter-card-body {
 			display: none;
-		}
+		} */
 
 		.counter-card-title h1 {
 			margin: 8px 0;
 		}
 
-		.card-actions {
+		.card-action-bar {
 			font-family: monospace;
 			font-size: 24px;
 			line-height: 36px;
 			display: grid;
-			grid-template-columns: 1fr 1fr 1fr .7fr;
-			border-bottom: 1px solid black;
+			grid-template-columns: 1fr 1fr 1fr .5fr;
+			border-bottom: 2px solid #1E1E1E;
+			box-sizing: border-box;
 		}
 
-		.card-action:not(:last-of-type) {
-			border-right: 1px solid black;
+		.card-action-box:not(:last-of-type) {
+			border-right: 2px solid #1E1E1E;
+			box-sizing: border-box;
 		}
 
-		.card-action {
+		.card-action-box {
 			width: 100%;
 			height: 100%;
 			text-align: center;
-			opacity: .2;
+			background: #fcfcfc;
 		}
 		
-		.card-action.is-on {
+		.card-action-box button {
+			width: 100%;
+    		height: 100%;
+			background: inherit;
+			border: none;
+			opacity: .2;
+			line-height: 36px;
+			text-shadow: 2px 2px #e2e2e2;
+		}
+		.card-action-box.is-on button {
 			opacity: 1;
-		}
-
-		.card-action.close-card {
-			/* color: red; */
-			opacity: .5;
-		}
-
-		#race-toggle-P.card-action.is-on, #race-toggle-T.card-action.is-on, #race-toggle-Z.card-action.is-on {
 			font-weight: bold;
+		}
+
+		.card-action-box.close-card button {
+			color: red;
+			opacity: .5;
+			font-weight: normal;
 		}
 
         .counter-card-title h1, .counter-card-title code {
@@ -438,10 +471,11 @@
         }
 
         .counter-card-body-item:not(:last-child) {
-            border-bottom: 1px solid gainsboro;
+            border-bottom: 1px solid #1E1E1E;
         }
         .counter-card-body-item .race-title {
             padding: 0 1em;
+			margin: 8px 0px;
         }
         .counter-card-body-item .counter-list {
             padding: 0 2em;
@@ -452,10 +486,8 @@
 		}
 
 		.multi-counter-item {
-			/* border: 1px solid green; */
 			border-radius: 4px;
 			color: white;
-			background-color: #5eba7d;
 			
 			margin: 4px;
 
@@ -477,26 +509,6 @@
 			border: none;
 			background: none;
 			color: white;
-		}
-
-		.Protoss-race-color {
-			color: #088008;
-		}
-		.Terran-race-color {
-			color: #F88C14;
-		}
-		.Zerg-race-color {
-			color: #88409C;
-		}
-
-		.Protoss-race-bg-color {
-			background-color: #088008;
-		}
-		.Terran-race-bg-color {
-			background-color: #F88C14;
-		}
-		.Zerg-race-bg-color {
-			background-color: #88409C;
 		}
     </style>
 
@@ -546,15 +558,22 @@ const multiCounterOutputEl = document.querySelector('#multi-counter-output');
 
 const counterCardBodyTempl = `
 		<div class="counter-card-title">
-			<div class="card-actions">
-				<!-- <div class="card-action is-on" onclick="renderToggleCollapse(this)">-</div> -->
-				<div id="race-toggle-P" class="card-action race-toggle-action Protoss-race-color %%Protoss_is_on%%" onclick="renderToggleRaceVisibility('Protoss', this)">P</div>
-				<div id="race-toggle-T" class="card-action race-toggle-action Terran-race-color %%Terran_is_on%%" onclick="renderToggleRaceVisibility('Terran', this)">T</div>
-				<div id="race-toggle-Z" class="card-action race-toggle-action Zerg-race-color %%Zerg_is_on%%" onclick="renderToggleRaceVisibility('Zerg', this)">Z</div>
-				<div class="card-action close-card" onclick="renderCloseCard(this)">X</div>
-			</div>
 			<h1 class="unit-to-counter">%%name%%</h1>
             <code>%%description%%</code>
+		</div>
+		<div class="card-action-bar">
+			<div id="race-toggle-P" class="card-action-box race-toggle-action %%Protoss_is_on%%" >
+				<button class="Protoss-race-color" type="button" onclick="renderToggleRaceVisibility('Protoss', this)">P</button>
+			</div>
+			<div id="race-toggle-T" class="card-action-box race-toggle-action Terran-race-color %%Terran_is_on%%">
+				<button class="Terran-race-color" type="button" onclick="renderToggleRaceVisibility('Terran', this)">T</button>
+			</div>
+			<div id="race-toggle-Z" class="card-action-box race-toggle-action Zerg-race-color %%Zerg_is_on%%">
+				<button class="Zerg-race-color" type="button" onclick="renderToggleRaceVisibility('Zerg', this)">Z</button>
+			</div>
+			<div class="card-action-box close-card">
+				<button type="button" onclick="renderCloseCard(this)">X</button>
+			</div>
 		</div>
 		<div id="counter-card-body">
 			%%counterCardBodyItemTempls%%
@@ -674,15 +693,6 @@ function renderCloseMultiCounter(unitName, counterCount, el) {
 
 }
 
-function renderToggleCollapse(el) {
-	const cardEl = el.parentElement.parentElement.parentElement;
-	if (cardEl.classList.contains(`is-collapsed`)) {
-		cardEl.classList.remove(`is-collapsed`);
-	} else {
-		cardEl.classList.add(`is-collapsed`);
-	}
-}
-
 function renderToggleRaceVisibility(race, cardActionEl) {
 	let bodyElSelector = '.counter-card-body-item.Protoss';
 
@@ -696,13 +706,13 @@ function renderToggleRaceVisibility(race, cardActionEl) {
 			break;
 	}
 
-	const isOn = cardActionEl.classList.contains('is-on');
+	const isOn = cardActionEl.parentElement.classList.contains('is-on');
 
 	if (isOn) {
-		cardActionEl.classList.remove('is-on');
+		cardActionEl.parentElement.classList.remove('is-on');
 		cardActionEl.parentElement.parentElement.parentElement.querySelector(bodyElSelector).setAttribute('hidden', true);
 	} else {
-		cardActionEl.classList.add('is-on');
+		cardActionEl.parentElement.classList.add('is-on');
 		cardActionEl.parentElement.parentElement.parentElement.querySelector(bodyElSelector).removeAttribute('hidden');
 	}
 
