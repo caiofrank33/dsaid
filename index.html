@@ -669,7 +669,7 @@ function renderMultiCounterItems() {
 	const unitsToCounter = units.filter(u => unitToCounterNames.indexOf(u.name) >= 0)
 	// console.log('u', unitsToCounter);
 
-	const allCounters = unitsToCounter.filter(u => u.name.toLowerCase() !== 'tip').reduce((agg, u) => {
+	const allCounters = unitsToCounter.filter(u => u.name.toLowerCase() !== 'tip' && u.name.toLowerCase() !== 'todo').reduce((agg, u) => {
 		u.counters.forEach(cu => {
 			if (!Array.isArray(agg[cu.name])) {
 				agg[cu.name] = [u.name];
@@ -687,10 +687,16 @@ function renderMultiCounterItems() {
 	console.log('multi-counters', allCounters);
 
 	const multiCounterEls = [];
+	let ceiling = 3
 
-	for (const [key, value] of Object.entries(allCounters)) {
+	for (const [key, value] of Object.entries(allCounters).sort((grpA, grpB) => grpA[1].length > grpB[1].length ? -1 : 1)) {
 		// console.log(`${key}: ${value}`);
-		if (value.length > 2) {
+
+		if (value.length > ceiling) {
+			ceiling = value.length;
+		}
+
+		if (value.length >= (ceiling - 1)) {
 			const multiCounterEl = document.createElement("div");
 			multiCounterEl.className = 'multi-counter-item';
 			multiCounterEl.innerHTML = templateReplacer(multiCounterItemTempl, { counter_names: key, unit_count: value.length, unit_names: `${value}` });
@@ -703,7 +709,7 @@ function renderMultiCounterItems() {
 
 	multiCounterOutputEl.innerHTML = "";
 
-	for (const el of multiCounterEls) {
+	for (const el of multiCounterEls.reverse()) {
 		multiCounterOutputEl.insertBefore(el, multiCounterOutputEl.firstChild);
 	}
 
