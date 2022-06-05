@@ -563,13 +563,13 @@ const counterCardBodyTempl = `
 		</div>
 		<div class="card-action-bar">
 			<div id="race-toggle-P" class="card-action-box race-toggle-action %%Protoss_is_on%%" >
-				<button class="Protoss-race-color" type="button" onclick="renderToggleRaceVisibility('Protoss', this)">P</button>
+				<button class="Protoss-race-color" type="button" onclick="renderVisibleRaceUpdate('Protoss', this)">P</button>
 			</div>
-			<div id="race-toggle-T" class="card-action-box race-toggle-action Terran-race-color %%Terran_is_on%%">
-				<button class="Terran-race-color" type="button" onclick="renderToggleRaceVisibility('Terran', this)">T</button>
+			<div id="race-toggle-T" class="card-action-box race-toggle-action %%Terran_is_on%%">
+				<button class="Terran-race-color" type="button" onclick="renderVisibleRaceUpdate('Terran', this)">T</button>
 			</div>
-			<div id="race-toggle-Z" class="card-action-box race-toggle-action Zerg-race-color %%Zerg_is_on%%">
-				<button class="Zerg-race-color" type="button" onclick="renderToggleRaceVisibility('Zerg', this)">Z</button>
+			<div id="race-toggle-Z" class="card-action-box race-toggle-action %%Zerg_is_on%%">
+				<button class="Zerg-race-color" type="button" onclick="renderVisibleRaceUpdate('Zerg', this)">Z</button>
 			</div>
 			<div class="card-action-box close-card">
 				<button type="button" onclick="renderCloseCard(this)">X</button>
@@ -609,32 +609,6 @@ const multiCounterItemTempl = `
 /**
  * HELPERS
  */
-function updateHideRaceCountersState() {
-	hideRaceCounters.length = 0;
-
-	const firstCounterCard = document.querySelector('#counter-output .counter-card');
-
-	if (!firstCounterCard) {
-		console.warn('Set `hideRaceCounters` to empty but there is no counter card to repopulate it');
-		return;
-	}
-
-	const hideProtoss = firstCounterCard.querySelector('#race-toggle-P.is-on') == null;
-	const hideTerran = firstCounterCard.querySelector('#race-toggle-T.is-on') == null;
-	const hideZerg = firstCounterCard.querySelector('#race-toggle-Z.is-on') == null;
-
-	if (hideProtoss) {
-		hideRaceCounters.push('Protoss')
-	}
-
-	if (hideTerran) {
-		hideRaceCounters.push('Terran')
-	}
-
-	if (hideZerg) {
-		hideRaceCounters.push('Zerg')
-	}
-}
 
 function getSelectedUnits() {
 	const unitToCounterNames = [];
@@ -690,30 +664,49 @@ function renderCloseMultiCounter(unitName, counterCount, el) {
 
 }
 
-function renderToggleRaceVisibility(race, cardActionEl) {
-	let bodyElSelector = '.counter-card-body-item.Protoss';
+function renderVisibleRaceUpdate(race, cardActionEl) {
+	const cardActionBarEl = cardActionEl.parentElement.parentElement;
 
-	switch (race) {
-		case Race.Terran:
-			bodyElSelector = '.counter-card-body-item.Terran';
-			break;
 	
-		case Race.Zerg:
-			bodyElSelector = '.counter-card-body-item.Zerg';
-			break;
-	}
 
-	const isOn = cardActionEl.parentElement.classList.contains('is-on');
+	cardActionBarEl.querySelectorAll('.race-toggle-action').forEach(el => {
+		switch (el.id) {
+			case 'race-toggle-P':
+				if (race === Race.Protoss) {
+					el.classList.add('is-on');
+					cardActionBarEl.parentElement.querySelector(`.counter-card-body-item.${Race.Protoss}`).removeAttribute('hidden');
+				} else {
+					el.classList.remove('is-on');
+					cardActionBarEl.parentElement.querySelector(`.counter-card-body-item.${Race.Protoss}`).setAttribute('hidden', true);
+				}
+				
+				break;
+			case 'race-toggle-T':
+				if (race === Race.Terran) {
+					el.classList.add('is-on');
+					cardActionBarEl.parentElement.querySelector(`.counter-card-body-item.${Race.Terran}`).removeAttribute('hidden');
+				} else {
+					el.classList.remove('is-on');
+					cardActionBarEl.parentElement.querySelector(`.counter-card-body-item.${Race.Terran}`).setAttribute('hidden', true);
+				}
+				break;
+			case 'race-toggle-Z':
+				if (race === Race.Zerg) {
+					el.classList.add('is-on');
+					cardActionBarEl.parentElement.querySelector(`.counter-card-body-item.${Race.Zerg}`).removeAttribute('hidden');
+				} else {
+					el.classList.remove('is-on');
+					cardActionBarEl.parentElement.querySelector(`.counter-card-body-item.${Race.Zerg}`).setAttribute('hidden', true);
+				}
+				break;
+		
+			default:
+				break;
+		}
+	});
 
-	if (isOn) {
-		cardActionEl.parentElement.classList.remove('is-on');
-		cardActionEl.parentElement.parentElement.parentElement.querySelector(bodyElSelector).setAttribute('hidden', true);
-	} else {
-		cardActionEl.parentElement.classList.add('is-on');
-		cardActionEl.parentElement.parentElement.parentElement.querySelector(bodyElSelector).removeAttribute('hidden');
-	}
 
-	updateHideRaceCountersState()
+	currentShowingRace = race;
 }
 
 function renderCounterCard(scUnit) {
@@ -737,9 +730,9 @@ function renderCounterCard(scUnit) {
 		return agg;
 	}, '');
 
-	const shouldHideProtoss = hideRaceCounters.indexOf('Protoss') > -1;
-	const shouldHideTerran = hideRaceCounters.indexOf('Terran') > -1;
-	const shouldHideZerg = hideRaceCounters.indexOf('Zerg') > -1;
+	const shouldHideProtoss = currentShowingRace !== Race.Protoss;
+	const shouldHideTerran = currentShowingRace !== Race.Terran;
+	const shouldHideZerg = currentShowingRace !== Race.Zerg;
 
 
 	const protossCardBodyItemHtml = templateReplacer(counterCardBodyItemTempl, { race: 'Protoss', counterCardListItemTempls: protossCounterListItems, is_hidden: shouldHideProtoss ? 'hidden=true' : '' })
@@ -1269,7 +1262,7 @@ const protossUnits = [
 const units = protossUnits.concat(terranUnits).concat(zergUnits);
 
 const optGroupRaceOrder = ['P', 'T', 'Z'];
-const hideRaceCounters = [];
+let currentShowingRace = Race.Terran;
 const hideMultiCounters = {};
 
 /**
