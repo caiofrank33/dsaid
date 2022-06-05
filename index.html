@@ -983,7 +983,7 @@ const terranUnits = [
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////// TERRAN
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	new TerranUnit(TerranUnitType.Marine, 'Bio; Light;', [
+	new TerranUnit(TerranUnitType.Marine, [BIO_ATTR, LIGHT_ATTR, TARGETS_GROUND_AIR, getDpsText('9.8 (+1.6)'), getDpsText('14.7 (+2.4) (Stimpack)'), RANGE_5], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Reaper, 'They have KD8 charge and they do great against marines'),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, 'Mix in marines'),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, 'Put a few in the back for some bonus firepower'),
@@ -993,7 +993,7 @@ const terranUnits = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Adept, 'Put adepts in front to take initial damage and then shape back'),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Disruptor, 'Disruptors are expensive but can cut an army down before the battle starts'),
 	]),
-	new TerranUnit(TerranUnitType.Marauder, `Armored; Bonus damage to armored`, [
+	new TerranUnit(TerranUnitType.Marauder, [ARMORED_ATTR, BIO_ATTR, TARGETS_GROUND, getDpsText('9.3 (+0.93)'), getDpsText('14.1 (+1.4) (Stimpack)'), getDpsText('+9.3 (+0.93) vs Armored'), getDpsText('+14.1 (+1.4) (Stimpack) vs Armored'), RANGE_6], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Get the upgrades`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, `Too many lings, too few Marauders`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, `Add Hydras later for more damage`),
