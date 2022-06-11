@@ -1066,7 +1066,7 @@ const terranUnits = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, `Deals bonus damage to armored units`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Tempest, `For range`),
 	]),
-	new TerranUnit(TerranUnitType.BattleCruiser, [ARMORED_ATTR, MASSIVE_ATTR, MECH_ATTR, TARGETS_GROUND_AIR, getDpsText2('49.8 (+6.2)', '', 'Ground'), getDpsText2('31.1 (+6.2)', '', 'Air')], [
+	new TerranUnit(TerranUnitType.BattleCruiser, [ARMORED_ATTR, MASSIVE_ATTR, MECH_ATTR, IS_AIR_UNIT, TARGETS_GROUND_AIR, getDpsText2('49.8 (+6.2)', '', 'Ground'), getDpsText2('31.1 (+6.2)', '', 'Air')], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, `Use High Impact Payload mode`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, `Deals bonus damage to massive`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, `Deals bonus to armored`),
@@ -1176,6 +1176,7 @@ const zergUnits = [
 			 ARMORED_ATTR,
 			 BIO_ATTR,
 			 TARGETS_AIR,
+			 IS_AIR_UNIT,
 			 BONUS_TO_MASSIVE,
 			 `${_DAMAGE_PER_SECOND} 10.29 (+0.74)`,
 			 `${_DAMAGE_PER_SECOND} to ${ARMORED_ATTR} +4.4 (+0.7)`
@@ -1209,7 +1210,7 @@ const zergUnits = [
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Broodlord, `to distract`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `wreck.gif`),
 	]),
-	new ZergUnit(ZergUnitType.Broodlord, [ARMORED_ATTR, MASSIVE_ATTR, BIO_ATTR, TARGETS_GROUND, `${_DAMAGE_PER_SECOND} 22.4 (+2.2)`, RANGE_10], [
+	new ZergUnit(ZergUnitType.Broodlord, [ARMORED_ATTR, MASSIVE_ATTR, BIO_ATTR, IS_AIR_UNIT, TARGETS_GROUND, `${_DAMAGE_PER_SECOND} 22.4 (+2.2)`, RANGE_10], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, `c-c-cyaaaaaaaa`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, ``),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Tempest, ``),
@@ -1235,7 +1236,7 @@ const protossUnits = [
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, `Add Hydras for a well balanced army`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Add Hydras for a well balanced army`),
 	]),
-	new ProtossUnit(ProtossUnitType.Adept, [LIGHT_ATTR, getDpsText2('6.2 (+0.62)', '+7.45 (+0.62) vs Light'), getDpsText2('9 (+0.9) Resonating Glaives', '+10.81 (+0.9) Resonating Glaives'), RANGE_4], [
+	new ProtossUnit(ProtossUnitType.Adept, [LIGHT_ATTR, TARGETS_GROUND, getDpsText2('6.2 (+0.62)', '+7.45 (+0.62) vs Light'), getDpsText2('9 (+0.9) Resonating Glaives', '+10.81 (+0.9) Resonating Glaives'), RANGE_4], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, 'Marauders are armored which adepts are weak against'),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Raven, 'Turrets'),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, 'Defender mode'),
@@ -1244,18 +1245,18 @@ const protossUnits = [
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, 'Get some hydras once T2'),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Stalker, 'Get blink'),
 	]),
-	new ProtossUnit(ProtossUnitType.Archon, 'Psionic; Massive; All sheild; Splash; Range 3', [
+	new ProtossUnit(ProtossUnitType.Archon, [PSIONIC_ATTR, MASSIVE_ATTR, SPLASH_DAMAGE, IS_GROUND_UNIT, TARGETS_GROUND_AIR, getDpsText2('20 (+2.4)', '+8 (+0.8) vs Biological'), RANGE_3], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, 'EMP Round spell as it deals 100 damage to shields instantly'),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, 'Liberators have better range and archons are quite clunky'),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, 'Hydras will destroy the archons'),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, 'Some roaches out front to tank damage'),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, 'Main counter'),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, ''),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Sentry, 'Couple of sentries for sheild'),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Disruptor, ``),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, 'If not positioned out front make sure they are useful in battle'),
 	]),
 	
-	new ProtossUnit(ProtossUnitType.Immortal, 'Armored; Aabsorbs up to 100 damage; Bonus against armored;', [
+	new ProtossUnit(ProtossUnitType.Immortal, [ARMORED_ATTR, IS_GROUND_UNIT, TARGETS_GROUND, MECH_ATTR, getDpsText2('19.2 (+1.92)', '+28.9 (+2.9) vs Armored'), 'Barrier ability absorbs up to 100 damage;', RANGE_6], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Marines don't take bonus damage from Immos`),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, 'Immos cant hit and libs destroy'),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, 'EMP'),
@@ -1268,7 +1269,7 @@ const protossUnits = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, `They're slow to kill but can help damage while in air from Phoenix`),
 	]),
 	
-	new ProtossUnit(ProtossUnitType.Phoenix, 'Light; Lift enemy ground units', [
+	new ProtossUnit(ProtossUnitType.Phoenix, [LIGHT_ATTR, IS_AIR_UNIT, TARGETS_AIR, getDpsText2('12.7 (+2.5)', '+12.7 vs Light'), 'Can lift enemy ground units',  `${RANGE_5} (+2)`], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, 'Get stims and sheilds'),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, 'Hydras can overwhelm with numbers even though they can be picked up'),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Infestor, 'Fungal Growth'),
@@ -1277,7 +1278,7 @@ const protossUnits = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Storm!`),
 	]),
 
-	new ProtossUnit(ProtossUnitType.VoidRay, 'Armored; Bonus to armored; Vulnerable to AOE;', [
+	new ProtossUnit(ProtossUnitType.VoidRay, [ARMORED_ATTR, MECH_ATTR, IS_AIR_UNIT, TARGETS_GROUND_AIR, getDpsText2('16.8 (+2.8)', '+11.2 vs Armored; +28 vs Armored w/ Prismatic Alignment'), RANGE_6], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Get stims and sheild upgrades`),
 		new ScUnitCounter(Race.Terran, TerranUnitType.WidowMine, `Get some Widow Mines for AOE`),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, `EMP to take out shields`),
@@ -1289,7 +1290,7 @@ const protossUnits = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, ``),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, `For the splash damage`),
 	]),
-	new ProtossUnit(ProtossUnitType.Carrier, 'Armored; Massive; Mechanical; Air;', [
+	new ProtossUnit(ProtossUnitType.Carrier, [ARMORED_ATTR, MASSIVE_ATTR, MECH_ATTR, IS_AIR_UNIT, TARGETS_GROUND_AIR, getDpsText2('37.4 (+7.5)'), RANGE_8], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, 'Use High Impact mode as it does lots of damage to a single unit'),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, `Bonus damage against massive units`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Tempest, `Bonus damage against massive units`),
