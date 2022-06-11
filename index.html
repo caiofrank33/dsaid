@@ -838,9 +838,14 @@ function renderResetUnitSelect(raceOrder) {
 }
 
 function getDpsText(dpsCopy, attribute, target) {
-	target = target || '';
+	target = (target || '').replace('Targets ', '');
 	attribute = attribute ? `to ${attribute}` : ``;
 	return `${target} DPS ${attribute} ${dpsCopy}`.trim();
+}
+
+function getDpsText2(dpsCopy, bonusCopy, target) {
+	target = (target || '').replace('Targets ', '');
+	return `${target} DPS ${dpsCopy}, bonus ${dpsCopy}`.trim();
 }
 
 const TerranUnitType = {
@@ -913,6 +918,7 @@ const ARMORED_ATTR = 'Armored';
 const BONUS_TO_LIGHT = `Bonus damage to ${LIGHT_ATTR}`;
 const BONUS_TO_ARMORED = `Bonus damage to ${ARMORED_ATTR}`;
 const BIO_ATTR = 'Bio';
+const PSIONIC_ATTR = 'Psionic';
 const MECH_ATTR = 'Mech';
 const BONUS_TO_BIO = `Bonus damage to ${BIO_ATTR}`;
 const BONUS_TO_MECH = `Bonus damage to ${MECH_ATTR}`;
@@ -935,6 +941,10 @@ const RANGE_10 = 'Range 10';
 
 const _DAMAGE_PER_SECOND = 'DPS'
 const _TANK = 'Tank';
+
+const IS_GROUND_UNIT = 'Ground Unit';
+const IS_AIR_UNIT = 'Ground Unit';
+const IS_GROUND_AND_AIR_UNIT = 'Ground/Air Unit';
 
 
 class ScUnitCounter {
@@ -976,7 +986,7 @@ const terranUnits = [
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////// TERRAN
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	new TerranUnit(TerranUnitType.Marine, [BIO_ATTR, LIGHT_ATTR, TARGETS_GROUND_AIR, getDpsText('9.8 (+1.6)'), getDpsText('14.7 (+2.4) (Stimpack)'), RANGE_5], [
+	new TerranUnit(TerranUnitType.Marine, [BIO_ATTR, LIGHT_ATTR, TARGETS_GROUND_AIR, getDpsText('9.8 (+1.6)'), getDpsText('14.7 (+2.4) (Stimpack)'), RANGE_5, IS_GROUND_UNIT], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Reaper, 'They have KD8 charge and they do great against marines'),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, 'Mix in marines'),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, 'Put a few in the back for some bonus firepower'),
@@ -986,14 +996,28 @@ const terranUnits = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Adept, 'Put adepts in front to take initial damage and then shape back'),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Disruptor, 'Disruptors are expensive but can cut an army down before the battle starts'),
 	]),
-	new TerranUnit(TerranUnitType.Marauder, [ARMORED_ATTR, BIO_ATTR, TARGETS_GROUND, getDpsText('9.3 (+0.93)'), getDpsText('14.1 (+1.4) (Stimpack)'), getDpsText('+10 (+1)', ARMORED_ATTR), getDpsText('+14.1 (+1.4) (Stimpack)', ARMORED_ATTR), RANGE_6], [
+	new TerranUnit(TerranUnitType.Marauder, [ARMORED_ATTR, BIO_ATTR, TARGETS_GROUND, getDpsText('9.3 (+0.93)'), getDpsText('14.1 (+1.4) (Stimpack)'), getDpsText('+10 (+1)', ARMORED_ATTR), getDpsText('+14.1 (+1.4) (Stimpack)', ARMORED_ATTR), RANGE_6, IS_GROUND_UNIT], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Get the upgrades`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, `Too many lings, too few Marauders`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, `Add Hydras later for more damage`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Zealot, `Zealots do well at first`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Immortals next, don't forget AA`),
 	]),
-	new TerranUnit(TerranUnitType.Hellbat, [BIO_ATTR, LIGHT_ATTR, MECH_ATTR, TARGETS_GROUND, getDpsText('12.6 (+1.4)'), getDpsText('+8.4 (+0.7) (Infernal Pre-Igniter)', LIGHT_ATTR, RANGE_2)], [
+	new TerranUnit(TerranUnitType.Reaper, [BIO_ATTR, LIGHT_ATTR, TARGETS_GROUND, getDpsText('10.1 (+2.5)'), IS_GROUND_UNIT], [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Reaper, `Get a lot`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Sprinkle in some marines`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, `Build in back`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, `?`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Adept, `?`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Stalker, `?`),
+	]),
+	new TerranUnit(TerranUnitType.Ghost, [BIO_ATTR, PSIONIC_ATTR, IS_GROUND_UNIT, TARGETS_GROUND_AIR, getDpsText('9.3 (+0.93)'), getDpsText('9.3 (+0.93)', LIGHT_ATTR), RANGE_6, `Steady Targeting`, `EMP`, CLOAKED], [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, `?`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, `?`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, `?`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Stalker, `?`),
+	]),
+	new TerranUnit(TerranUnitType.Hellbat, [BIO_ATTR, LIGHT_ATTR, MECH_ATTR, TARGETS_GROUND, IS_GROUND_UNIT, getDpsText('12.6 (+1.4)'), getDpsText('+8.4 (+0.7) (Infernal Pre-Igniter)', LIGHT_ATTR, RANGE_2)], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Has greater range and numbers`),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Hellbat, `Deals bonus damage against itself`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Baneling, `Does bonus damage against light units`),
@@ -1002,12 +1026,28 @@ const terranUnits = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Adept, `Deals bonus damage to light`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Sentry, `Sheilds help with defense`),
 	]),
-	new TerranUnit(TerranUnitType.SiegeTank, [ARMORED_ATTR, MECH_ATTR, SPLASH_DAMAGE, getDpsText('18.69 (+1.87)'), getDpsText('+14.02 (+0.47)', ARMORED_ATTR)], [
+	new TerranUnit(TerranUnitType.SiegeTank, [ARMORED_ATTR, MECH_ATTR, TARGETS_GROUND, IS_GROUND_UNIT, SPLASH_DAMAGE, getDpsText('18.69 (+1.87)'), getDpsText('+14.02 (+0.47)', ARMORED_ATTR)], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.SiegeTank, `You really need to kill the army in front and then kill the tanks. But some tanks of your own can help`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.SwarmHost, `The little guys they shoot out can absorb tank shots but you mainly need to focus on the army in front of the tanks.`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Immos are good against tanks but you mainly need to focus on the army in front of the tanks.`),
 	]),
-	new TerranUnit(TerranUnitType.Raven, `Light; Mechanical; Air; Detector;`, [
+	new TerranUnit(TerranUnitType.Thor, [
+			ARMORED_ATTR, 
+			MASSIVE_ATTR, 
+			MECH_ATTR, 
+			TARGETS_GROUND_AIR, 
+			getDpsText2(`65.9 (+6.59)`, '', TARGETS_GROUND),
+			getDpsText2(`11.2 (+1.87)`, `+11.2 (+1.87) vs Light`, TARGETS_AIR),
+			getDpsText2(`27.5 (+3.3)`, `+11.0 (+1.1) vs Massive`, TARGETS_AIR),
+		], [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, `Switch them to high impact mode`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Ultralisk, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Viper, `Blinding cloud`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Immos deal bonus to mech`),
+	]),
+	new TerranUnit(TerranUnitType.Raven, [LIGHT_ATTR, MECH_ATTR, IS_AIR_UNIT, DETECTOR], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `To kill Raven`),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, `To kill auto-turrets`),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Viking, `Does bonus damage to mechanical`),
@@ -1017,7 +1057,7 @@ const terranUnits = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Phoenix, `Does bonus damage to Raven`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Does bonus damage to auto-turret`),
 	]),
-	new TerranUnit(TerranUnitType.Liberator, `Armored; Mechanical; Air;`, [
+	new TerranUnit(TerranUnitType.Liberator, [ARMORED_ATTR, MECH_ATTR, TARGETS_GROUND_AIR, IS_AIR_UNIT, `${RANGE_10} (+3)`, getDpsText('65.8 (+4.39)', '', 'Ground'), getDpsText('7.75 (+1.55)', '', 'Air')], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `These are a good trade against libs`),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Viking, `Deals bonus damage to mechanical`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, `a`),
@@ -1026,16 +1066,8 @@ const terranUnits = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, `Deals bonus damage to armored units`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Tempest, `For range`),
 	]),
-	new TerranUnit(TerranUnitType.Thor, `Armored; Massive; Mechanical;`, [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, `Switch them to high impact mode`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Ultralisk, ``),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, ``),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, ``),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Viper, `Blinding cloud`),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Immos deal bonus to mech`),
-	]),
-	new TerranUnit(TerranUnitType.BattleCruiser, `Armored; Massive; Mechanical;`, [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, `High Impact Payload`),
+	new TerranUnit(TerranUnitType.BattleCruiser, [ARMORED_ATTR, MASSIVE_ATTR, MECH_ATTR, TARGETS_GROUND_AIR, getDpsText2('49.8 (+6.2)', '', 'Ground'), getDpsText2('31.1 (+6.2)', '', 'Air')], [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, `Use High Impact Payload mode`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, `Deals bonus damage to massive`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, `Deals bonus to armored`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Tempest, `Deals bonus to massive`),
@@ -1069,10 +1101,76 @@ const zergUnits = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `get Psionic Storm`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, `enjoy the splash damage`),
 	]),
-	new ZergUnit(ZergUnitType.Broodlord, [ARMORED_ATTR, MASSIVE_ATTR, BIO_ATTR, TARGETS_GROUND, `${_DAMAGE_PER_SECOND} 22.4 (+2.2)`, RANGE_10], [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, `c-c-cyaaaaaaaa`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, ``),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Tempest, ``),
+	new ZergUnit(ZergUnitType.Roach, [ARMORED_ATTR, BIO_ATTR, _TANK, TARGETS_GROUND, `${_DAMAGE_PER_SECOND} 11.2 (+1.4)`, RANGE_4], [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, `Bonus to Armored`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, `Let rest off army tank for Hydra`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Ultralisk, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Zealot, `Zealots are not great against Roach but can act as tank`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Bonus damage; but watch out for lings!`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Disruptor, `One shot kill`),
+	]),
+	new ZergUnit(ZergUnitType.Ravager, [BIO_ATTR, TARGETS_GROUND, getDpsText('14.04 (+1.75)'), RANGE_6], [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Ultralisk, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, ``),
+	]),
+	new ZergUnit(ZergUnitType.Queen, [BIO_ATTR, TARGETS_GROUND_AIR, `Healer`, getDpsText('11.2 (+2.8)', null, 'Ground'), `Ground ${RANGE_5}`, getDpsText(`12.6 (+1.4)`, null, 'Air'), `Air ${RANGE_7}`], [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, ``),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, `Steady Target`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, `add lings and banes as needed`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Ravager, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Feedback to drain their healing ability. May not need storm. Make sure they're close enough to use feedback.`),
+	]),
+	new ZergUnit(ZergUnitType.Hydralisk, [LIGHT_ATTR, BIO_ATTR, TARGETS_GROUND_AIR, `${RANGE_5} (+1)`, `${_DAMAGE_PER_SECOND} 20.4 (+1.7)`], [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Build lots`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, `Add some ghosts for Steady Target`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, `High HP + fast health regen`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Queen, `Healing`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Lurker, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Storm`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Clean up after storm`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Disruptor, `Disruptors are a 1 shot kill`),
+	]),
+
+	new ZergUnit(ZergUnitType.Lurker, [
+		ARMORED_ATTR, 
+		BIO_ATTR, 
+		CLOAKED, 
+		TARGETS_GROUND,
+		`${RANGE_8} (+2)`, getDpsText(`14.0 (+1.4)`), 
+		`${_DAMAGE_PER_SECOND} to ${ARMORED_ATTR} +7.0 (+0.7)`
+	], [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, ``),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, ``),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, `Roaches can win short term`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Lurker, `Build more lurkers than them`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Queen, `To heal lurkers`),
+		new ScUnitCounter(Race.Protoss, `Tip`, `Disruptor shots will not kill lurkers and queens will heal`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Feedback the queens`),
+	]),
+
+
+
+	new ZergUnit(ZergUnitType.Mutalisk, [LIGHT_ATTR, BIO_ATTR, TARGETS_GROUND_AIR, `8.26 (+0.92) (1st bounce) 2.75 (+0.31) (2nd bounce) 0.92 (+0.10) (3rd bounce)`, RANGE_3, `Weak against AOE attacks`], [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, ``),
+		new ScUnitCounter(Race.Terran, TerranUnitType.WidowMine, ``),
+		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Queen, `Healing makes em hard to kill`), 
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Infestor, `Fungal Growth`), 
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, ``), 
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, `At least a few to take damage`), 
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Mutalisk, `Or counter with mutas if youre not caught by surprise`), 
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Stalker, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Storm`),
 	]),
 	new ZergUnit(ZergUnitType.Corruptor, [
 			 ARMORED_ATTR,
@@ -1091,78 +1189,12 @@ const zergUnits = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, `Bonus damage`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Storm`),
 	]),
-	new ZergUnit(ZergUnitType.Hydralisk, [LIGHT_ATTR, BIO_ATTR, TARGETS_GROUND_AIR, `${RANGE_5} (+1)`, `${_DAMAGE_PER_SECOND} 20.4 (+1.7)`], [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Build lots`),
-		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, `Add some ghosts for Steady Target`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, `High HP + fast health regen`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Queen, `Healing`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, ``),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Lurker, ``),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Storm`),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Clean up after storm`),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Disruptor, `Disruptors are a 1 shot kill`),
-	]),
 	new ZergUnit(ZergUnitType.Infestor, `TODO`, [
 		new ScUnitCounter(Race.Terran, `Tip`, `No idea`),
 		new ScUnitCounter(Race.Zerg, `Tip`, `No idea`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Disruptor, `They prefer Infestors`),
 	]),
-	new ZergUnit(ZergUnitType.Lurker, [
-			ARMORED_ATTR, 
-			BIO_ATTR, 
-			CLOAKED, 
-			TARGETS_GROUND,
-			`${RANGE_8} (+2)`, getDpsText(`14.0 (+1.4)`), 
-			`${_DAMAGE_PER_SECOND} to ${ARMORED_ATTR} +7.0 (+0.7)`
-		], [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, ``),
-		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, ``),
-		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, ``),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, `Roaches can win short term`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Lurker, `Build more lurkers than them`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Queen, `To heal lurkers`),
-		new ScUnitCounter(Race.Protoss, `Tip`, `Disruptor shots will not kill lurkers and queens will heal`),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, ``),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Feedback the queens`),
-	]),
-	new ZergUnit(ZergUnitType.Mutalisk, [LIGHT_ATTR, BIO_ATTR, TARGETS_GROUND_AIR, `8.26 (+0.92) (1st bounce) 2.75 (+0.31) (2nd bounce) 0.92 (+0.10) (3rd bounce)`, RANGE_3, `Weak against AOE attacks`], [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, ``),
-		new ScUnitCounter(Race.Terran, TerranUnitType.WidowMine, ``),
-		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, ``),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Queen, `Healing makes em hard to kill`), 
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Infestor, `Fungal Growth`), 
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, ``), 
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, `At least a few to take damage`), 
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Mutalisk, `Or counter with mutas if youre not caught by surprise`), 
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Stalker, ``),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, ``),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Storm`),
-	]),
-	new ZergUnit(ZergUnitType.Queen, [BIO_ATTR, TARGETS_GROUND_AIR, `Healer`, getDpsText('11.2 (+2.8)', null, 'Ground'), `Ground ${RANGE_5}`, getDpsText(`12.6 (+1.4)`, null, 'Air'), `Air ${RANGE_7}`], [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, ``),
-		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, `Steady Target`),
-		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, ``),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, `add lings and banes as needed`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Ravager, ``),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, ``),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, ``),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Feedback to drain their healing ability. May not need storm. Make sure they're close enough to use feedback.`),
-	]),
-	new ZergUnit(ZergUnitType.Ravager, [BIO_ATTR, TARGETS_GROUND, getDpsText('14.04 (+1.75)'), RANGE_6], [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, ``),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Ultralisk, ``),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, ``),
-	]),
-	new ZergUnit(ZergUnitType.Roach, [ARMORED_ATTR, BIO_ATTR, _TANK, TARGETS_GROUND, `${_DAMAGE_PER_SECOND} 11.2 (+1.4)`, RANGE_4], [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, `Bonus to Armored`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, ``),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, ``),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, `Let rest off army tank for Hydra`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Ultralisk, ``),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Zealot, `Zealots are not great against Roach but can act as tank`),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Bonus damage; but watch out for lings!`),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Disruptor, `One shot kill`),
-	]),
+
 	new ZergUnit(ZergUnitType.SwarmHost, [ARMORED_ATTR, BIO_ATTR, CLOAKED, 'Deploys locust that attack/absorb dmg', 'Great for holding the line'], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, `They are effecient killers`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, `Not confident in this one`),
@@ -1177,12 +1209,32 @@ const zergUnits = [
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Broodlord, `to distract`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `wreck.gif`),
 	]),
+	new ZergUnit(ZergUnitType.Broodlord, [ARMORED_ATTR, MASSIVE_ATTR, BIO_ATTR, TARGETS_GROUND, `${_DAMAGE_PER_SECOND} 22.4 (+2.2)`, RANGE_10], [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, `c-c-cyaaaaaaaa`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Tempest, ``),
+	]),
+	
  ];
 
 const protossUnits = [
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////// PROTOSS
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	new ProtossUnit(ProtossUnitType.Zealot, `Light`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Hellbat, `Get Infernal Pre-igniter upgrade`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Baneling, `Banes blow them up but use lings or roaches to finish the job`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, ``),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, ``),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Adept, `Adept does bonus damage to light units. Research glaive upgrade`)
+	]),
+	new ProtossUnit(ProtossUnitType.Stalker, `Armored; Blink upgrade; Sticky;`, [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, `They do bonus damage to armored units. Research all upgrades.`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, `Do speed upgrade`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, `Add Hydras for a well balanced army`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Add Hydras for a well balanced army`),
+	]),
 	new ProtossUnit(ProtossUnitType.Adept, 'Light unit; Bonus to light;', [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, 'Marauders are armored which adepts are weak against'),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Raven, 'Turrets'),
@@ -1202,13 +1254,7 @@ const protossUnits = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Disruptor, ``),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, 'If not positioned out front make sure they are useful in battle'),
 	]),
-
-	new ProtossUnit(ProtossUnitType.Carrier, 'Armored; Massive; Mechanical; Air;', [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, 'Use High Impact mode as it does lots of damage to a single unit'),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, `Bonus damage against massive units`),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Tempest, `Bonus damage against massive units`),
-	]),
-
+	
 	new ProtossUnit(ProtossUnitType.Immortal, 'Armored; Aabsorbs up to 100 damage; Bonus against armored;', [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Marines don't take bonus damage from Immos`),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, 'Immos cant hit and libs destroy'),
@@ -1221,7 +1267,7 @@ const protossUnits = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Phoenix, `Pick up some of their immortals to spread damage/second out`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, `They're slow to kill but can help damage while in air from Phoenix`),
 	]),
-
+	
 	new ProtossUnit(ProtossUnitType.Phoenix, 'Light; Lift enemy ground units', [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, 'Get stims and sheilds'),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, 'Hydras can overwhelm with numbers even though they can be picked up'),
@@ -1229,13 +1275,6 @@ const protossUnits = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, `Archons are massive and can't be lifted`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, ``),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Storm!`),
-	]),
-
-	new ProtossUnit(ProtossUnitType.Stalker, `Armored; Blink upgrade; Sticky;`, [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, `They do bonus damage to armored units. Research all upgrades.`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, `Do speed upgrade`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, `Add Hydras for a well balanced army`),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Add Hydras for a well balanced army`),
 	]),
 
 	new ProtossUnit(ProtossUnitType.VoidRay, 'Armored; Bonus to armored; Vulnerable to AOE;', [
@@ -1250,12 +1289,10 @@ const protossUnits = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, ``),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, `For the splash damage`),
 	]),
-	new ProtossUnit(ProtossUnitType.Zealot, `Light`, [
-		new ScUnitCounter(Race.Terran, TerranUnitType.Hellbat, `Get Infernal Pre-igniter upgrade`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Baneling, `Banes blow them up but use lings or roaches to finish the job`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, ``),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, ``),
-		new ScUnitCounter(Race.Protoss, ProtossUnitType.Adept, `Adept does bonus damage to light units. Research glaive upgrade`)
+	new ProtossUnit(ProtossUnitType.Carrier, 'Armored; Massive; Mechanical; Air;', [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, 'Use High Impact mode as it does lots of damage to a single unit'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, `Bonus damage against massive units`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Tempest, `Bonus damage against massive units`),
 	]),
 ];
 
