@@ -986,14 +986,14 @@ const terranUnits = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Adept, 'Put adepts in front to take initial damage and then shape back'),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Disruptor, 'Disruptors are expensive but can cut an army down before the battle starts'),
 	]),
-	new TerranUnit(TerranUnitType.Marauder, [ARMORED_ATTR, BIO_ATTR, TARGETS_GROUND, getDpsText('9.3 (+0.93)'), getDpsText('14.1 (+1.4) (Stimpack)'), getDpsText('+9.3 (+0.93) vs Armored'), getDpsText('+14.1 (+1.4) (Stimpack) vs Armored'), RANGE_6], [
+	new TerranUnit(TerranUnitType.Marauder, [ARMORED_ATTR, BIO_ATTR, TARGETS_GROUND, getDpsText('9.3 (+0.93)'), getDpsText('14.1 (+1.4) (Stimpack)'), getDpsText('+10 (+1)', ARMORED_ATTR), getDpsText('+14.1 (+1.4) (Stimpack)', ARMORED_ATTR), RANGE_6], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Get the upgrades`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, `Too many lings, too few Marauders`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, `Add Hydras later for more damage`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Zealot, `Zealots do well at first`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Immortals next, don't forget AA`),
 	]),
-	new TerranUnit(TerranUnitType.Hellbat, `Bio; Light; Mechanical; Splash; Deals bonus to light;`, [
+	new TerranUnit(TerranUnitType.Hellbat, [BIO_ATTR, LIGHT_ATTR, MECH_ATTR, TARGETS_GROUND, getDpsText('12.6 (+1.4)'), getDpsText('+8.4 (+0.7) (Infernal Pre-Igniter)', LIGHT_ATTR, RANGE_2)], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `Has greater range and numbers`),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Hellbat, `Deals bonus damage against itself`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Baneling, `Does bonus damage against light units`),
@@ -1002,7 +1002,7 @@ const terranUnits = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Adept, `Deals bonus damage to light`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Sentry, `Sheilds help with defense`),
 	]),
-	new TerranUnit(TerranUnitType.SiegeTank, `Armored; Mechanical; Bonus damage to armored; Splash;`, [
+	new TerranUnit(TerranUnitType.SiegeTank, [ARMORED_ATTR, MECH_ATTR, SPLASH_DAMAGE, getDpsText('18.69 (+1.87)'), getDpsText('+14.02 (+0.47)', ARMORED_ATTR)], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.SiegeTank, `You really need to kill the army in front and then kill the tanks. But some tanks of your own can help`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.SwarmHost, `The little guys they shoot out can absorb tank shots but you mainly need to focus on the army in front of the tanks.`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Immos are good against tanks but you mainly need to focus on the army in front of the tanks.`),
@@ -1021,7 +1021,7 @@ const terranUnits = [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `These are a good trade against libs`),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Viking, `Deals bonus damage to mechanical`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, `a`),
-		new ScUnitCounter(Race.Zerg, ZergUnitType.Viper, `Parasitic Bomb`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Viper, `Abduct pulls libs out of "ground-target mode" leaving them vuln for a bit`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Infestor, `Fungal Growth`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, `Deals bonus damage to armored units`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Tempest, `For range`),
