@@ -1235,7 +1235,7 @@ const protossUnits = [
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, `Add Hydras for a well balanced army`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Add Hydras for a well balanced army`),
 	]),
-	new ProtossUnit(ProtossUnitType.Adept, 'Light unit; Bonus to light;', [
+	new ProtossUnit(ProtossUnitType.Adept, [LIGHT_ATTR, getDpsText2('6.2 (+0.62)', '+7.45 (+0.62) vs Light'), getDpsText2('9 (+0.9) Resonating Glaives', '+10.81 (+0.9) Resonating Glaives'), RANGE_4], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, 'Marauders are armored which adepts are weak against'),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Raven, 'Turrets'),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, 'Defender mode'),
