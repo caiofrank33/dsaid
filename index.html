@@ -414,10 +414,6 @@
 			display: none;
 		} */
 
-		.counter-card-title h1 {
-			margin: 8px 0;
-		}
-
 		.card-action-bar {
 			font-family: monospace;
 			font-size: 24px;
@@ -460,7 +456,7 @@
 			font-weight: normal;
 		}
 
-        .counter-card-title h1, .counter-card-title code {
+        .counter-card-title h2, .counter-card-title code {
             padding: 0 24px;
 			margin-bottom: 8px;
         }
@@ -479,6 +475,7 @@
         }
         .counter-card-body-item .counter-list {
             padding: 0 2em;
+			margin-top: 0;
         }
 
 		#multi-counter-output {
@@ -558,7 +555,7 @@ const multiCounterOutputEl = document.querySelector('#multi-counter-output');
 
 const counterCardBodyTempl = `
 		<div class="counter-card-title">
-			<h1 class="unit-to-counter">%%name%%</h1>
+			<h2 class="unit-to-counter">%%name%%</h2>
             <code>%%description%%</code>
 		</div>
 		<div class="card-action-bar">
