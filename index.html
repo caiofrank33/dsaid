@@ -845,7 +845,7 @@ function getDpsText(dpsCopy, attribute, target) {
 
 function getDpsText2(dpsCopy, bonusCopy, target) {
 	target = (target || '').replace('Targets ', '');
-	return `${target} DPS ${dpsCopy}, bonus ${dpsCopy}`.trim();
+	return `${target} DPS ${dpsCopy}, bonus ${bonusCopy}`.trim();
 }
 
 const TerranUnitType = {
@@ -1222,14 +1222,14 @@ const protossUnits = [
 	///////////////////////// PROTOSS
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	new ProtossUnit(ProtossUnitType.Zealot, `Light`, [
+	new ProtossUnit(ProtossUnitType.Zealot, [LIGHT_ATTR, BIO_ATTR, TARGETS_GROUND, getDpsText('18.6 (+2.33)')], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Hellbat, `Get Infernal Pre-igniter upgrade`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Baneling, `Banes blow them up but use lings or roaches to finish the job`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, ``),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Roach, ``),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Adept, `Adept does bonus damage to light units. Research glaive upgrade`)
 	]),
-	new ProtossUnit(ProtossUnitType.Stalker, `Armored; Blink upgrade; Sticky;`, [
+	new ProtossUnit(ProtossUnitType.Stalker, [ARMORED_ATTR, MECH_ATTR, TARGETS_GROUND_AIR, getDpsText2('9.7 (+0.75)', '+3.7 (+0.75) vs Armored')], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Marauder, `They do bonus damage to armored units. Research all upgrades.`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, `Do speed upgrade`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, `Add Hydras for a well balanced army`),
