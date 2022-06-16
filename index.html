@@ -393,7 +393,7 @@
 		}
 
         .counter-card {
-            border: 2px solid #1E1E1E;
+            border-top: 2px solid #1E1E1E;
             border-radius: 4px;
             /* padding: 1em; */
             margin-bottom: 16px;
@@ -402,17 +402,18 @@
         }
 
         .counter-card-title {
+			border-left: 2px solid #1E1E1E;
+			border-right: 2px solid #1E1E1E;
             border-bottom: 2px solid #1E1E1E;
-            /* margin: 0 -1em; */
+            padding-top: 12px;
         }
 
-		/* .counter-card.is-collapsed .counter-card-title {
-			border-bottom: none;
+		.counter-card-title ul {
+			margin: 0;
+			padding: 0 0 0 10px;
+			list-style: none;
+			text-indent: -10px;
 		}
-
-		.counter-card.is-collapsed #counter-card-body {
-			display: none;
-		} */
 
 		.card-action-bar {
 			font-family: monospace;
@@ -420,7 +421,9 @@
 			line-height: 36px;
 			display: grid;
 			grid-template-columns: 1fr 1fr 1fr .5fr;
-			border-bottom: 2px solid #1E1E1E;
+			border-left: 2px solid #1E1E1E;
+			border-right: 2px solid #1E1E1E;
+			/* border-bottom: 2px solid #1E1E1E; */
 			box-sizing: border-box;
 		}
 
@@ -458,20 +461,41 @@
 
         .counter-card-title h2, .counter-card-title code {
             padding: 0 24px;
-			margin-bottom: 8px;
+			margin: 0 0 8px 0;
         }
 
         .counter-card-title code {
-            color: gray;
+            color: #575757;
 			display: block;
         }
 
-        .counter-card-body-item:not(:last-child) {
+        /* .counter-card-body-item:not(:last-child) {
             border-bottom: 1px solid #1E1E1E;
-        }
-        .counter-card-body-item .race-title {
-            padding: 0 1em;
-			margin: 8px 0px;
+        } */
+		#counter-card-body {
+			padding: 12px;
+
+		}
+
+		#counter-card-body.Terran {
+			/* color: #F88C14; */
+			border: 2px solid #F88C14;
+			box-sizing: content-box;
+			box-shadow: inset 2px 2px 4px rgb(248 140 20 / 25%);
+		}
+		#counter-card-body.Protoss {
+			border: 2px solid #088008;
+			box-sizing: content-box;
+			box-shadow: inset 2px 2px 4px rgb(8 128 8 / 25%);
+		}
+		#counter-card-body.Zerg {
+			border: 2px solid #88409C;
+			box-sizing: content-box;
+			box-shadow: inset 2px 2px 4px rgb(136 64 156 / 25%);
+		}
+
+        .counter-card-body-item {
+            
         }
         .counter-card-body-item .counter-list {
             padding: 0 2em;
@@ -556,7 +580,7 @@ const multiCounterOutputEl = document.querySelector('#multi-counter-output');
 const counterCardBodyTempl = `
 		<div class="counter-card-title">
 			<h2 class="unit-to-counter">%%name%%</h2>
-            <code>%%description%%</code>
+            <code><ul>%%description%%</ul></code>
 		</div>
 		<div class="card-action-bar">
 			<div id="race-toggle-P" class="card-action-box race-toggle-action %%Protoss_is_on%%" >
@@ -572,14 +596,13 @@ const counterCardBodyTempl = `
 				<button type="button" onclick="renderCloseCard(this)">X</button>
 			</div>
 		</div>
-		<div id="counter-card-body">
+		<div id="counter-card-body" class='%%active_race%%'>
 			%%counterCardBodyItemTempls%%
 		</div>
 `;
 
 const counterCardBodyItemTempl = `
 	<div class="counter-card-body-item %%race%%" %%is_hidden%%>
-		<h3 class="race-title %%race%%-race-color">As %%race%%...</h3>
 		<ul class="counter-list">
 			%%counterCardListItemTempls%%
 		</ul>
@@ -664,8 +687,6 @@ function renderCloseMultiCounter(unitName, counterCount, el) {
 function renderVisibleRaceUpdate(race, cardActionEl) {
 	const cardActionBarEl = cardActionEl.parentElement.parentElement;
 
-	
-
 	cardActionBarEl.querySelectorAll('.race-toggle-action').forEach(el => {
 		switch (el.id) {
 			case 'race-toggle-P':
@@ -704,6 +725,7 @@ function renderVisibleRaceUpdate(race, cardActionEl) {
 
 
 	currentShowingRace = race;
+	document.querySelector('#counter-card-body').classList.value = currentShowingRace;
 }
 
 function renderCounterCard(scUnit) {
@@ -745,6 +767,7 @@ function renderCounterCard(scUnit) {
 			Protoss_is_on: shouldHideProtoss ? '' : 'is-on',
 			Terran_is_on: shouldHideTerran ? '' : 'is-on',
 			Zerg_is_on: shouldHideZerg ? '' : 'is-on',
+			active_race: currentShowingRace,
 			counterCardBodyItemTempls: protossCardBodyItemHtml + terranCardBodyItemHtml + zergCardBodyItemHtml 
 		}
 	);
@@ -955,9 +978,15 @@ class ScUnitCounter {
 class ScUnit {
 	constructor(name, description, race, counters) {
 		this.name = name;
-		this.description = Array.isArray(description) ? description.join('; ') : description;
+		this.description = Array.isArray(description) ? description.map(d => getDescriptionEl(d)).filter(d => d && d.length).join('') : description;
 		this.race = race;
 		this.counters = counters;
+	}
+}
+
+function getDescriptionEl(text) {
+	if (text) {
+		return `<li><strong>${text.slice(0, 3)}</strong>${text.slice(3)}</li>`;
 	}
 }
 
