@@ -472,26 +472,26 @@
         /* .counter-card-body-item:not(:last-child) {
             border-bottom: 1px solid #1E1E1E;
         } */
-		#counter-card-body {
+		.counter-card-body {
 			padding: 12px;
-
+			padding-bottom: 0;
 		}
 
-		#counter-card-body.Terran {
+		.counter-card-body.Terran {
 			/* color: #F88C14; */
 			border: 2px solid #F88C14;
 			box-sizing: content-box;
-			box-shadow: inset 2px 2px 4px rgb(248 140 20 / 25%);
+			box-shadow: inset 2px 2px 4px rgb(248 140 20 / 25%), inset -2px -2px 4px rgb(248 140 20 / 25%);
 		}
-		#counter-card-body.Protoss {
+		.counter-card-body.Protoss {
 			border: 2px solid #088008;
 			box-sizing: content-box;
-			box-shadow: inset 2px 2px 4px rgb(8 128 8 / 25%);
+			box-shadow: inset 2px 2px 4px rgb(8 128 8 / 25%), inset -2px -2px 4px rgb(8 128 8 / 25%)
 		}
-		#counter-card-body.Zerg {
+		.counter-card-body.Zerg {
 			border: 2px solid #88409C;
 			box-sizing: content-box;
-			box-shadow: inset 2px 2px 4px rgb(136 64 156 / 25%);
+			box-shadow: inset 2px 2px 4px rgb(136 64 156 / 25%), inset -2px -2px 4px rgb(136 64 156 / 25%);;
 		}
 
         .counter-card-body-item {
@@ -596,7 +596,7 @@ const counterCardBodyTempl = `
 				<button type="button" onclick="renderCloseCard(this)">X</button>
 			</div>
 		</div>
-		<div id="counter-card-body" class='%%active_race%%'>
+		<div class='counter-card-body %%active_race%%'>
 			%%counterCardBodyItemTempls%%
 		</div>
 `;
@@ -725,7 +725,7 @@ function renderVisibleRaceUpdate(race, cardActionEl) {
 
 
 	currentShowingRace = race;
-	cardActionBarEl.nextElementSibling.classList.value = currentShowingRace
+	cardActionBarEl.nextElementSibling.classList.value = currentShowingRace + ' ' + 'counter-card-body'
 }
 
 function renderCounterCard(scUnit) {
