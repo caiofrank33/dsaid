@@ -395,10 +395,9 @@
         .counter-card {
             border-top: 2px solid #1E1E1E;
             border-radius: 4px;
-            /* padding: 1em; */
             margin-bottom: 16px;
 			background-color: white;
-
+			box-shadow: 3px 2px 0px #7c7c7c;
         }
 
         .counter-card-title {
@@ -407,6 +406,11 @@
             border-bottom: 2px solid #1E1E1E;
             padding-top: 12px;
         }
+
+		.unit-to-counter-name {
+			display: flex;
+    		justify-content: space-between;
+		}
 
 		.counter-card-title ul {
 			margin: 0;
@@ -467,6 +471,12 @@
         .counter-card-title code {
             color: #575757;
 			display: block;
+        }
+
+		.counter-card-title.hidden-description code {
+            height: 3.5ch;
+			overflow: hidden;
+			/* display: none; */
         }
 
         /* .counter-card-body-item:not(:last-child) {
@@ -579,8 +589,8 @@ const multiCounterOutputEl = document.querySelector('#multi-counter-output');
 }
 
 const counterCardBodyTempl = `
-		<div class="counter-card-title">
-			<h2 class="unit-to-counter">%%name%%</h2>
+		<div class="counter-card-title hidden-description">
+			<h2 class="unit-to-counter-name"><span>%%name%%</span><span onclick=toggleDescription(this.parentElement.parentElement)>-</span></h2>
             <code><ul>%%description%%</ul></code>
 		</div>
 		<div class="card-action-bar">
@@ -633,7 +643,7 @@ const multiCounterItemTempl = `
 
 function getSelectedUnits() {
 	const unitToCounterNames = [];
-	const unitToCounterEls = document.querySelectorAll('.counter-card .unit-to-counter');
+	const unitToCounterEls = document.querySelectorAll('.counter-card .unit-to-counter-name > span');
 
 	unitToCounterEls.forEach(el => {
 		unitToCounterNames.push(el.innerHTML);
@@ -684,6 +694,15 @@ function renderCloseMultiCounter(unitName, counterCount, el) {
 	}
 
 }
+
+function toggleDescription(cardTitleEl) {
+	if (cardTitleEl.classList.contains('hidden-description')) {
+		cardTitleEl.classList.remove('hidden-description');
+	} else {
+		cardTitleEl.classList.add('hidden-description');
+	}
+}
+
 
 function renderVisibleRaceUpdate(race, cardActionEl) {
 	const cardActionBarEl = cardActionEl.parentElement.parentElement;
