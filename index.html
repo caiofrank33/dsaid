@@ -473,33 +473,34 @@
             border-bottom: 1px solid #1E1E1E;
         } */
 		.counter-card-body {
-			padding: 12px;
-			padding-bottom: 0;
+			padding: 12px 12px 12px 32px;
 		}
 
 		.counter-card-body.Terran {
 			/* color: #F88C14; */
 			border: 2px solid #F88C14;
 			box-sizing: content-box;
-			box-shadow: inset 2px 2px 4px rgb(248 140 20 / 25%), inset -2px -2px 4px rgb(248 140 20 / 25%);
+			box-shadow: inset 2px 2px 4px rgb(248 140 20 / 10%), inset -2px -2px 4px rgb(248 140 20 / 10%);
 		}
 		.counter-card-body.Protoss {
 			border: 2px solid #088008;
 			box-sizing: content-box;
-			box-shadow: inset 2px 2px 4px rgb(8 128 8 / 25%), inset -2px -2px 4px rgb(8 128 8 / 25%)
+			box-shadow: inset 2px 2px 4px rgb(8 128 8 / 10%), inset -2px -2px 4px rgb(8 128 8 / 10%)
 		}
 		.counter-card-body.Zerg {
 			border: 2px solid #88409C;
 			box-sizing: content-box;
-			box-shadow: inset 2px 2px 4px rgb(136 64 156 / 25%), inset -2px -2px 4px rgb(136 64 156 / 25%);;
+			box-shadow: inset 2px 2px 4px rgb(136 64 156 / 10%), inset -2px -2px 4px rgb(136 64 156 / 10%);;
 		}
 
-        .counter-card-body-item {
-            
+        .counter-card-body-item .counter-list li:not(:last-of-type) {
+            margin-bottom: 4px;
         }
         .counter-card-body-item .counter-list {
-            padding: 0 2em;
-			margin-top: 0;
+            padding: 0;
+			margin: 0;
+			list-style: none;
+		    text-indent: -12px;
         }
 
 		#multi-counter-output {
