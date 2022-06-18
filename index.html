@@ -795,7 +795,21 @@ function renderMultiCounterItems() {
 	const multiCounterEls = [];
 	let ceiling = 4
 
-	for (const [counterUnitName, counterUnitData] of Object.entries(allCounters).sort((grpA, grpB) => grpA[1].counters.length > grpB[1].counters.length ? -1 : 1)) {
+	for (const [counterUnitName, counterUnitData] of Object.entries(allCounters)
+			.sort((grpA, grpB) => {
+				if (grpA[1].counters.length === grpB[1].counters.length) {
+					return 0;
+				}
+				return grpA[1].counters.length > grpB[1].counters.length ? -1 : 1
+			})
+			.sort((grpA, grpB) => {
+				if (grpA[1].race === grpB[1].race) {
+					return 0;
+				}
+				return grpA[1].race > grpB[1].race ? -1 : 1
+			})
+		) {
+
 		if (hideMultiCounters[counterUnitName]) {
 			continue;
 		}
