@@ -474,7 +474,7 @@
         }
 
 		.counter-card-title.hidden-description code {
-            height: 3.5ch;
+            height: 2ch;
 			overflow: hidden;
 			/* display: none; */
         }
@@ -590,7 +590,7 @@ const multiCounterOutputEl = document.querySelector('#multi-counter-output');
 
 const counterCardBodyTempl = `
 		<div class="counter-card-title hidden-description">
-			<h2 class="unit-to-counter-name"><span>%%name%%</span><span onclick=toggleDescription(this.parentElement.parentElement)>-</span></h2>
+			<h2 class="unit-to-counter-name"><span>%%name%%</span><span onclick="toggleDescription(this, this.parentElement.parentElement)">+</span></h2>
             <code><ul>%%description%%</ul></code>
 		</div>
 		<div class="card-action-bar">
@@ -695,11 +695,13 @@ function renderCloseMultiCounter(unitName, counterCount, el) {
 
 }
 
-function toggleDescription(cardTitleEl) {
+function toggleDescription(toggleEl, cardTitleEl) {
 	if (cardTitleEl.classList.contains('hidden-description')) {
 		cardTitleEl.classList.remove('hidden-description');
+		toggleEl.innerHTML = '-';
 	} else {
 		cardTitleEl.classList.add('hidden-description');
+		toggleEl.innerHTML = '+';
 	}
 }
 
