@@ -575,7 +575,7 @@
 
 </head>
 <body>
-    <h1 class="title">Direct Strike Aid</h1>
+    <h1 class="title"><a href="/dsaid">Direct Strike Aid</a></h1>
     
     <form>
         <label for="unit-selection">Choose the unit you want to counter</label>
@@ -1383,6 +1383,11 @@ const protossUnits = [
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.HighTemplar, `Storm!`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, ``),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Archon, `For the splash damage`),
+	]),
+	new ProtossUnit(ProtossUnitType.Colossus, [ARMORED_ATTR, MASSIVE_ATTR, MECH_ATTR, TARGETS_GROUND, IS_GROUND_AND_AIR_UNIT, getDpsText2('18.7 (+1.87)', '+9.3 (+1.87) vs Light'), `${RANGE_7} (+2)`], [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Viking, 'Bonus to mech'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Corruptor, `Bonus damage against massive units`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Tempest, `Bonus damage against massive units`),
 	]),
 	new ProtossUnit(ProtossUnitType.Carrier, [ARMORED_ATTR, MASSIVE_ATTR, MECH_ATTR, IS_AIR_UNIT, TARGETS_GROUND_AIR, getDpsText2('37.4 (+7.5)'), RANGE_8], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Thor, 'Use High Impact mode as it does lots of damage to a single unit'),
