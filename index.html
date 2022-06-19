@@ -674,7 +674,7 @@ const multiCounterItemTempl = `
 
 function getSelectedUnits() {
 	const unitToCounterNames = [];
-	const unitToCounterEls = document.querySelectorAll('.counter-card .unit-to-counter-name > span');
+	const unitToCounterEls = document.querySelectorAll('.counter-card .unit-to-counter-name');
 
 	unitToCounterEls.forEach(el => {
 		unitToCounterNames.push(el.innerHTML);
