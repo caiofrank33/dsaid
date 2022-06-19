@@ -393,7 +393,7 @@
 		}
 
         .counter-card {
-            border-top: 2px solid #1E1E1E;
+            border-top: 1px solid #1E1E1E;
             border-radius: 4px;
             margin-bottom: 16px;
 			background-color: white;
@@ -401,11 +401,25 @@
         }
 
         .counter-card-title {
-			border-left: 2px solid #1E1E1E;
-			border-right: 2px solid #1E1E1E;
-            border-bottom: 2px solid #1E1E1E;
-            padding-top: 12px;
+			border-left: 1px solid #1E1E1E;
+			border-right: 1px solid #1E1E1E;
+            border-bottom: 1px solid #1E1E1E;
         }
+
+		button.counter-card-title {
+			width: 100%;
+
+		}
+
+		.counter-card-title button {
+			background: inherit;
+			display: grid;
+			grid-template-columns: 3fr .5fr;
+			width: 100%;
+            padding-top: 12px;
+			/* padding: 0; */
+			border: none;
+		}
 
 		.unit-to-counter-name {
 			display: flex;
@@ -425,14 +439,14 @@
 			line-height: 36px;
 			display: grid;
 			grid-template-columns: 1fr 1fr 1fr .5fr;
-			border-left: 2px solid #1E1E1E;
-			border-right: 2px solid #1E1E1E;
+			border-left: 1px solid #1E1E1E;
+			border-right: 1px solid #1E1E1E;
 			/* border-bottom: 2px solid #1E1E1E; */
 			box-sizing: border-box;
 		}
 
 		.card-action-box:not(:last-of-type) {
-			border-right: 2px solid #1E1E1E;
+			border-right: 1px solid #1E1E1E;
 			box-sizing: border-box;
 		}
 
@@ -452,6 +466,7 @@
 			line-height: 36px;
 			text-shadow: 2px 2px #e2e2e2;
 		}
+
 		.card-action-box.is-on button {
 			opacity: 1;
 			font-weight: bold;
@@ -474,9 +489,9 @@
         }
 
 		.counter-card-title.hidden-description code {
-            height: 2.5ch;
-			overflow: hidden;
-			/* display: none; */
+            /* height: 2.5ch; */
+			/* overflow: hidden; */
+			display: none;
         }
 
         /* .counter-card-body-item:not(:last-child) {
@@ -488,19 +503,19 @@
 
 		.counter-card-body.Terran {
 			/* color: #F88C14; */
-			border: 2px solid #F88C14;
+			border: 1px solid #1E1E1E;
 			box-sizing: content-box;
-			box-shadow: inset 2px 2px 4px rgb(248 140 20 / 25%), inset -2px -2px 4px rgb(248 140 20 / 25%);
+			box-shadow: inset 6px 6px 4px rgb(248 140 20 / 25%), inset -6px -6px 4px rgb(248 140 20 / 25%);
 		}
 		.counter-card-body.Protoss {
-			border: 2px solid #088008;
+			border: 1px solid #1E1E1E;
 			box-sizing: content-box;
-			box-shadow: inset 2px 2px 4px rgb(8 128 8 / 15%), inset -2px -2px 4px rgb(8 128 8 / 15%)
+			box-shadow: inset 6px 6px 4px rgb(8 128 8 / 15%), inset -6px -6px 4px rgb(8 128 8 / 15%)
 		}
 		.counter-card-body.Zerg {
-			border: 2px solid #88409C;
+			border: 1px solid #1E1E1E;
 			box-sizing: content-box;
-			box-shadow: inset 2px 2px 4px rgb(136 64 156 / 15%), inset -2px -2px 4px rgb(136 64 156 / 15%);;
+			box-shadow: inset 6px 6px 4px rgb(136 64 156 / 15%), inset -6px -6px 4px rgb(136 64 156 / 15%);;
 		}
 
         .counter-card-body-item .counter-list li:not(:last-of-type) {
@@ -521,16 +536,22 @@
 			border-radius: 4px;
 			color: white;
 			
-			margin: 4px;
+			
 
-			display: flex;
-			align-items: center;
-			justify-content: center;
+			display: grid;
+    		grid-template-columns: 3fr .5fr;
 		}
 
+		.multi-counter-item:not(:last-of-type) {
+
+			margin-bottom: 8px;
+		}
+
+
 		.multi-counter-item .multi-counter-item-text {
-			padding: 12px;
+			padding: 8px;
 			border-right: 1px solid white;
+			box-sizing: border-box;
 		}
 
 		.close-multi-counter-item {
@@ -590,7 +611,11 @@ const multiCounterOutputEl = document.querySelector('#multi-counter-output');
 
 const counterCardBodyTempl = `
 		<div class="counter-card-title hidden-description">
-			<h2 class="unit-to-counter-name"><span>%%name%%</span><span onclick="toggleDescription(this, this.parentElement.parentElement)">+</span></h2>
+			<button type="button" onclick="toggleDescription(this.parentElement)">
+				<h2 class="unit-to-counter-name">%%name%%</h2>
+				<h2 class="toggle-indicator">+</h2>
+			</button>
+			
             <code><ul>%%description%%</ul></code>
 		</div>
 		<div class="card-action-bar">
@@ -695,7 +720,8 @@ function renderCloseMultiCounter(unitName, counterCount, el) {
 
 }
 
-function toggleDescription(toggleEl, cardTitleEl) {
+function toggleDescription(cardTitleEl) {
+	const toggleEl = cardTitleEl.querySelector('.toggle-indicator');
 	if (cardTitleEl.classList.contains('hidden-description')) {
 		cardTitleEl.classList.remove('hidden-description');
 		toggleEl.innerHTML = '-';
