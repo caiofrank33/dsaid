@@ -364,8 +364,13 @@
     </style>
     <style>
         body {
-            margin: 0 1em;
+			max-width: 768px;
+			margin: auto auto;
+            
         }
+		.body-wrapper {
+			margin: 0 1em;
+		}
 
 		.Protoss-race-color {
 			color: #088008;
@@ -406,7 +411,7 @@
 			display: grid;
 			grid-template-columns: 3fr .5fr;
 			width: 100%;
-			padding: 6px 24px;
+			padding: 6px 24px 3px 24px;
 			border: none;
 			color: #1E1E1E;
 		}
@@ -428,11 +433,10 @@
 			text-indent: -10px;
 		}
 
-
-
         .counter-card-title code {
-            padding: 0 24px;
-			margin: 0 0 8px 0;
+            padding: 3px 24px 8px 24px;
+			border-top: 1px dotted #575757;
+			/* margin: 0 0 8px 0; */
 			color: #575757;
 			display: block;
         }
@@ -558,23 +562,25 @@
 
 </head>
 <body>
-    <h1 class="title"><a href="/dsaid">Direct Strike Aid</a></h1>
-    
-    <form>
-        <label for="unit-selection">Choose the unit you want to counter</label>
-        <select name="Unit section" id="unit-selection" onchange="renderAddCard(this)">
-            <option value="empty"></option>
-            <optgroup label="Terran"></optgroup>
-            <optgroup label="Zerg"></optgroup>
-            <optgroup label="Protoss"></optgroup>
-        </select>
-    </form>
-	<div id="multi-counter-output">
-		<!-- Output goes here -->
+	<div class="body-wrapper">
+		<h1 class="title"><a href="/dsaid">Direct Strike Aid</a></h1>
+		
+		<form>
+			<label for="unit-selection">Choose the unit you want to counter</label>
+			<select name="Unit section" id="unit-selection" onchange="renderAddCard(this)">
+				<option value="empty"></option>
+				<optgroup label="Terran"></optgroup>
+				<optgroup label="Zerg"></optgroup>
+				<optgroup label="Protoss"></optgroup>
+			</select>
+		</form>
+		<div id="multi-counter-output">
+			<!-- Output goes here -->
+		</div>
+		<div id="counter-output">
+			<!-- Output goes here -->
+		</div>    
 	</div>
-    <div id="counter-output">
-		<!-- Output goes here -->
-	</div>    
 </body>
 <script>
 	
@@ -582,7 +588,7 @@
  * SELECTORS
  */
 
-const selectEl = document.querySelector('body > form > select');
+const selectEl = document.querySelector('body .body-wrapper > form > select');
 
 const outputContainer = document.querySelector('#counter-output');
 const multiCounterOutputEl = document.querySelector('#multi-counter-output');
@@ -893,15 +899,15 @@ function renderResetUnitSelect(raceOrder) {
 		switch (u.race) {
 			case Race.Terran: {
 	
-				document.querySelector('body > form > select > optgroup[label="Terran"]').appendChild(el);
+				document.querySelector('body .body-wrapper > form > select > optgroup[label="Terran"]').appendChild(el);
 				break;
 			}
 			case Race.Zerg: {
-				document.querySelector('body > form > select > optgroup[label="Zerg"]').appendChild(el);
+				document.querySelector('body .body-wrapper > form > select > optgroup[label="Zerg"]').appendChild(el);
 				break;
 			}
 			case Race.Protoss: {
-				document.querySelector('body > form > select > optgroup[label="Protoss"]').appendChild(el);
+				document.querySelector('body .body-wrapper > form > select > optgroup[label="Protoss"]').appendChild(el);
 				break;
 			}
 		}
