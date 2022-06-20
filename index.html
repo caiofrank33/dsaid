@@ -393,35 +393,30 @@
 		}
 
         .counter-card {
-            border-top: 1px solid #1E1E1E;
+            border: 1px solid #1E1E1E;
             border-radius: 4px;
             margin-bottom: 16px;
 			background-color: white;
 			box-shadow: 3px 2px 0px #7c7c7c;
         }
 
-        .counter-card-title {
-			border-left: 1px solid #1E1E1E;
-			border-right: 1px solid #1E1E1E;
-            border-bottom: 1px solid #1E1E1E;
-        }
-
-		button.counter-card-title {
-			width: 100%;
-
-		}
 
 		.counter-card-title button {
 			background: inherit;
 			display: grid;
 			grid-template-columns: 3fr .5fr;
 			width: 100%;
-            padding-top: 12px;
+			padding: 6px 24px;
 			border: none;
-			color: black;
+			color: #1E1E1E;
 		}
 
-		.unit-to-counter-name {
+		.counter-card-title span {
+			font-size: 24px;
+			font-weight: 700;
+		}
+
+		.counter-card-title button .unit-to-counter-name {
 			display: flex;
     		justify-content: space-between;
 		}
@@ -433,15 +428,29 @@
 			text-indent: -10px;
 		}
 
+
+
+        .counter-card-title code {
+            padding: 0 24px;
+			margin: 0 0 8px 0;
+			color: #575757;
+			display: block;
+        }
+
+		.counter-card-title.hidden-description code {
+			display: none;
+        }
+
 		.card-action-bar {
 			font-family: monospace;
 			font-size: 24px;
 			line-height: 36px;
 			display: grid;
 			grid-template-columns: 1fr 1fr 1fr .5fr;
-			border-left: 1px solid #1E1E1E;
-			border-right: 1px solid #1E1E1E;
-			/* border-bottom: 2px solid #1E1E1E; */
+			/* border-left: 1px solid #1E1E1E;
+			border-right: 1px solid #1E1E1E; */
+			border-top: 1px solid #1E1E1E;
+			border-bottom: 1px solid #1E1E1E;
 			box-sizing: border-box;
 		}
 
@@ -478,48 +487,22 @@
 			font-weight: normal;
 		}
 
-		.counter-card-title h2 {
-			padding: 0 8px;
-			margin: 0 0 8px 0;	
-		}
-
-
-        .counter-card-title code {
-            padding: 0 24px;
-			margin: 0 0 8px 0;
-        }
-
-        .counter-card-title code {
-            color: #575757;
-			display: block;
-        }
-
-		.counter-card-title.hidden-description code {
-            /* height: 2.5ch; */
-			/* overflow: hidden; */
-			display: none;
-        }
-
-        /* .counter-card-body-item:not(:last-child) {
-            border-bottom: 1px solid #1E1E1E;
-        } */
 		.counter-card-body {
+			/* border: 1px solid #1E1E1E; */
+			/* border-bottom-left-radius: 4px;
+			border-bottom-right-radius: 4px; */
 			padding: 12px 12px 12px 32px;
 		}
 
 		.counter-card-body.Terran {
-			/* color: #F88C14; */
-			border: 1px solid #1E1E1E;
 			box-sizing: content-box;
 			box-shadow: inset 6px 6px 4px rgb(248 140 20 / 25%), inset -6px -6px 4px rgb(248 140 20 / 25%);
 		}
 		.counter-card-body.Protoss {
-			border: 1px solid #1E1E1E;
 			box-sizing: content-box;
 			box-shadow: inset 6px 6px 4px rgb(8 128 8 / 15%), inset -6px -6px 4px rgb(8 128 8 / 15%)
 		}
 		.counter-card-body.Zerg {
-			border: 1px solid #1E1E1E;
 			box-sizing: content-box;
 			box-shadow: inset 6px 6px 4px rgb(136 64 156 / 15%), inset -6px -6px 4px rgb(136 64 156 / 15%);;
 		}
@@ -618,8 +601,8 @@ const multiCounterOutputEl = document.querySelector('#multi-counter-output');
 const counterCardBodyTempl = `
 		<div class="counter-card-title hidden-description">
 			<button type="button" onclick="toggleDescription(this.parentElement)">
-				<h2 class="unit-to-counter-name">%%name%%</h2>
-				<h2 class="toggle-indicator">+</h2>
+				<span class="unit-to-counter-name">%%name%%</span>
+				<span class="toggle-indicator">+</span>
 			</button>
 			
             <code><ul>%%description%%</ul></code>
