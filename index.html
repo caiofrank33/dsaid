@@ -454,7 +454,16 @@
 			/* border-left: 1px solid #1E1E1E;
 			border-right: 1px solid #1E1E1E; */
 			border-top: 1px solid #1E1E1E;
+			/* box-sizing: border-box; */
+		}
+
+		.card-action-box:not(.is-on) {
 			border-bottom: 1px solid #1E1E1E;
+			box-sizing: border-box;
+		}
+
+		.card-action-box.is-on {
+			border-bottom: 1px dotted #1E1E1E;
 			box-sizing: border-box;
 		}
 
@@ -478,6 +487,16 @@
 			opacity: .2;
 			line-height: 36px;
 			text-shadow: 2px 2px #e2e2e2;
+		}
+
+		#race-toggle-P.card-action-box.is-on {
+			background-color: #BBDCBB;
+		}
+		#race-toggle-T.card-action-box.is-on {
+			background-color: #FBCC98;
+		}
+		#race-toggle-Z.card-action-box.is-on {
+			background-color: #DECBE3;
 		}
 
 		.card-action-box.is-on button {
