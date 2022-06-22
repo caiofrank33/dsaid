@@ -992,6 +992,7 @@ const ProtossUnitType = {
 	Disruptor: 'Disruptor',
 	HighTemplar: 'High Templar',
 	Immortal: 'Immortal',
+	Oracle: 'Oracle',
 	Phoenix: 'Phoenix',
 	Sentry: 'Sentry',
 	Stalker: 'Stalker',
@@ -1349,6 +1350,17 @@ const protossUnits = [
 		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, 'Get some hydras once T2'),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Stalker, 'Get blink'),
 	]),
+	new ProtossUnit(ProtossUnitType.Sentry, [LIGHT_ATTR, MECH_ATTR, PSIONIC_ATTR, IS_GROUND_UNIT, TARGETS_GROUND_AIR, getDpsText('8.4 (+1.4)'), `Hallucination ability creates archon that does no damage. Requires detector!`, RANGE_5], [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Reaper, ''),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Hydralisk, ''),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Stalker, ''),
+	]),
+	new ProtossUnit(ProtossUnitType.Oracle, [MECH_ATTR, ARMORED_ATTR, PSIONIC_ATTR, IS_AIR_UNIT, TARGETS_GROUND, getDpsText2('24.4', '+11.5 vs Light'), RANGE_4], [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Viking, '+11.3 (+1.41) vs Mechanical'),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Mutalisk, ''),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.VoidRay, '+28 vs Armored (w/ Prismatic Alignment)'),
+	]),
+
 	new ProtossUnit(ProtossUnitType.Archon, [PSIONIC_ATTR, MASSIVE_ATTR, SPLASH_DAMAGE, IS_GROUND_UNIT, TARGETS_GROUND_AIR, getDpsText2('20 (+2.4)', '+8 (+0.8) vs Biological'), RANGE_3], [
 		new ScUnitCounter(Race.Terran, TerranUnitType.Ghost, 'EMP Round spell as it deals 100 damage to shields instantly'),
 		new ScUnitCounter(Race.Terran, TerranUnitType.Liberator, 'Liberators have better range and archons are quite clunky'),
