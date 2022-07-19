@@ -958,7 +958,7 @@ const TerranUnitType = {
 	Banshees: 'Banshees',
 	Raven: 'Raven',
 	SiegeTank: 'Siege Tank',
-	MissileMech: 'Missile Mech Guy',
+	Cyclone: 'Cyclone',
 	WidowMine: 'Widow Mine',
 	Viking: 'Viking',
 	Thor: 'Thor',
@@ -1135,6 +1135,13 @@ const terranUnits = [
 		new ScUnitCounter(Race.Terran, TerranUnitType.SiegeTank, `You really need to kill the army in front and then kill the tanks. But some tanks of your own can help`),
 		new ScUnitCounter(Race.Zerg, ZergUnitType.SwarmHost, `The little guys they shoot out can absorb tank shots but you mainly need to focus on the army in front of the tanks.`),
 		new ScUnitCounter(Race.Protoss, ProtossUnitType.Immortal, `Immos are good against tanks but you mainly need to focus on the army in front of the tanks.`),
+	]),
+	new TerranUnit(TerranUnitType.Cyclone, [ARMORED_ATTR, MECH_ATTR, TARGETS_GROUND_AIR, IS_GROUND_UNIT, SPLASH_DAMAGE, getDpsText('25.2 (+2.8)'), RANGE_5, `Mag-Field Accelerator ability doubles damage against armor`], [
+		new ScUnitCounter(Race.Terran, TerranUnitType.Marine, `?`),
+		new ScUnitCounter(Race.Terran, TerranUnitType.SiegeTank, `?`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Zergling, `Small units to overwhelm`),
+		new ScUnitCounter(Race.Zerg, ZergUnitType.Viper, `Viper Abduct cancels Lock On ability`),
+		new ScUnitCounter(Race.Protoss, ProtossUnitType.Phoenix, `Graviton Beam breaks Lock On ability`),
 	]),
 	new TerranUnit(TerranUnitType.Thor, [
 			ARMORED_ATTR, 
